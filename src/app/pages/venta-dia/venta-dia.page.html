@@ -1,0 +1,113 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title>Resumen de Ventas</ion-title>
+    <ion-badge slot="end" color="light" class="ion-margin-end">
+      {{ fechaActual }}
+    </ion-badge>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  
+  <ion-card class="main-table-card">
+    <ion-grid>
+      <ion-row class="header-row">
+        <ion-col size="4">Turno</ion-col>
+        <ion-col size="4">Meta</ion-col>
+        <ion-col size="4">Real</ion-col>
+      </ion-row>
+
+      <ion-row class="data-row">
+        <ion-col size="4"><ion-text color="medium">Venta AM</ion-text></ion-col>
+        <ion-col size="4"><strong>${{ metas.am }}</strong></ion-col>
+        <ion-col size="4">
+          <ion-input type="number" [(ngModel)]="real.am" placeholder="0" class="custom-input"></ion-input>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="data-row">
+        <ion-col size="4"><ion-text color="medium">Almuerzo</ion-text></ion-col>
+        <ion-col size="4"><strong>${{ metas.almuerzo }}</strong></ion-col>
+        <ion-col size="4">
+          <ion-input type="number" [(ngModel)]="real.almuerzo" placeholder="0" class="custom-input"></ion-input>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="data-row">
+        <ion-col size="4"><ion-text color="medium">Venta Tarde</ion-text></ion-col>
+        <ion-col size="4"><strong>${{ metas.tarde }}</strong></ion-col>
+        <ion-col size="4">
+          <ion-input type="number" [(ngModel)]="real.tarde" placeholder="0" class="custom-input"></ion-input>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card>
+
+  <div class="footer-summary">
+    <ion-item lines="none">
+      <ion-label>Meta del Día</ion-label>
+      <ion-text slot="end" color="primary"><h2>${{ metas.dia }}</h2></ion-text>
+    </ion-item>
+
+    <ion-card class="diff-card" [ngClass]="{'ok': diferenciaTotal <= 0, 'pending': diferenciaTotal > 0}">
+      <ion-item lines="none" color="transparent">
+        <ion-label>
+          <p>Falta / Sobra</p>
+          <h1 *ngIf="diferenciaTotal > 0">Faltan: ${{ diferenciaTotal }}</h1>
+          <h1 *ngIf="diferenciaTotal <= 0">Sobra: ${{ diferenciaTotal * -1 }}</h1>
+        </ion-label>
+      </ion-item>
+    </ion-card>
+  </div>
+
+  <div class="operacion-section">
+  <h3 class="section-title">Control Operativo</h3>
+  
+  <ion-card class="info-card">
+    <ion-list lines="full">
+      <ion-item>
+        <ion-label position="stacked">Menú del Día</ion-label>
+        <ion-input [(ngModel)]="operacion.menuDelDia" placeholder="Nombre del menú"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Plato Principal Sugerido</ion-label>
+        <ion-input [(ngModel)]="operacion.platoPrincipal" placeholder="Escribir sugerencia"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Entrada Sugestiva</ion-label>
+        <ion-input [(ngModel)]="operacion.entrada" placeholder="Escribir sugerencia"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Postre Sugestivo</ion-label>
+        <ion-input [(ngModel)]="operacion.postre" placeholder="Escribir sugerencia"></ion-input>
+      </ion-item>
+    </ion-list>
+  </ion-card>
+
+  <ion-card class="info-card warning-border">
+    <ion-list lines="full">
+      <ion-item>
+        <ion-label position="stacked">Desviar</ion-label>
+        <ion-input [(ngModel)]="operacion.desviar" placeholder="Instrucciones de desvío"></ion-input>
+      </ion-item>
+
+      <ion-item-divider color="light">
+        <ion-label>Productos 86 (Agotados)</ion-label>
+      </ion-item-divider>
+
+      <ion-item *ngFor="let prod of [0,1,2]; let i = index">
+        <ion-icon name="close-circle-outline" slot="start" color="danger"></ion-icon>
+        <ion-input [(ngModel)]="operacion.productos86[i]" placeholder="Producto agotado {{i+1}}"></ion-input>
+      </ion-item>
+    </ion-list>
+  </ion-card>
+  
+  <ion-button expand="block" shape="round" color="primary" class="ion-margin-top ion-margin-bottom">
+    Guardar Reporte Completo
+  </ion-button>
+</div>
+
+</ion-content>

@@ -1,20 +1,55 @@
-<ion-header [translucent]="true">
+<ion-header [translucent]="true" class="ion-no-border">
   <ion-toolbar>
     <ion-title>
-      Blank
+      Restaurante
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+<ion-content [fullscreen]="true" class="ion-padding">
+  
+  <div class="welcome-section">
+    <h1>Panel de Control</h1>
+    <p>Gestión del establecimiento</p>
   </div>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6">
+        <ion-card class="menu-card" (click)="navegar('control-temperatura')">
+          <div class="card-icon-wrapper temp-bg">
+            <ion-icon name="thermometer-outline"></ion-icon>
+          </div>
+          <ion-card-header>
+            <ion-card-title>Temperatura</ion-card-title>
+          </ion-card-header>
+        </ion-card>
+      </ion-col>
+
+      <ion-col size="6">
+        <ion-card class="menu-card" (click)="navegar('control-productos')">
+          <div class="card-icon-wrapper products-bg">
+            <ion-icon name="cube-outline"></ion-icon>
+          </div>
+          <ion-card-header>
+            <ion-card-title>Productos</ion-card-title>
+          </ion-card-header>
+        </ion-card>
+      </ion-col>
+
+      <ion-col size="12">
+        <ion-card class="menu-card full-width" (click)="navegar('venta-dia')">
+          <div class="card-icon-wrapper sales-bg">
+            <ion-icon name="cash-outline"></ion-icon>
+          </div>
+          <div class="full-card-text">
+            <ion-card-header>
+              <ion-card-title>Venta del Día</ion-card-title>
+              <ion-card-subtitle>Resumen de ingresos hoy</ion-card-subtitle>
+            </ion-card-header>
+          </div>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

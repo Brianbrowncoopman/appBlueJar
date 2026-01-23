@@ -1,27 +1,64 @@
-#container {
-  text-align: center;
-
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+ion-title {
+  font-weight: 700;
+  font-size: 1.4rem;
+  letter-spacing: -0.5px;
 }
 
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
+.welcome-section {
+  padding: 10px 10px 20px 10px;
+  h1 {
+    font-weight: 800;
+    margin: 0;
+    font-size: 1.8rem;
+  }
+  p {
+    color: var(--ion-color-medium);
+    margin: 5px 0 0 0;
+  }
 }
 
-#container p {
-  font-size: 16px;
-  line-height: 22px;
+.menu-card {
+  margin: 8px 0;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 15px 0;
+  transition: transform 0.2s;
 
-  color: #8c8c8c;
+  &:active {
+    transform: scale(0.95);
+  }
 
-  margin: 0;
+  ion-card-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-align: center;
+  }
 }
 
-#container a {
-  text-decoration: none;
+.full-width {
+  flex-direction: row;
+  padding: 10px 20px;
+  justify-content: start;
 }
+
+.card-icon-wrapper {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  
+  ion-icon {
+    font-size: 24px;
+    color: white;
+  }
+}
+
+.temp-bg { background: #ff4d4d; }
+.products-bg { background: #3880ff; }
+.sales-bg { background: #2dd36f; margin-bottom: 0; margin-right: 15px; }
