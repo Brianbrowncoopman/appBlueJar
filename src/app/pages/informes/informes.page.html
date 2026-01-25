@@ -5,7 +5,7 @@
     </ion-buttons>
     <ion-title>Informes</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="descargarExcel()" [disabled]="ventasFiltradas.length === 0">
+      <ion-button (click)="descargarExcel()">
         <ion-icon slot="start" name="download-outline"></ion-icon>
         Excel
       </ion-button>
@@ -25,106 +25,95 @@
 </ion-header>
 
 <ion-content class="gray-background">
-
-  <div *ngIf="segmentoActivo === 'ventas'" class="ion-padding">
-    
-    <ion-item lines="none" class="filter-item" style="--background: #fff; border-radius: 10px; margin-bottom: 15px;">
-      <ion-label>Mes de consulta:</ion-label>
+  <div class="ion-padding">
+    <ion-item lines="none" class="filter-item">
+      <ion-label>Periodo:</ion-label>
       <ion-datetime-button datetime="dateFilter"></ion-datetime-button>
       <ion-modal [keepContentsMounted]="true">
         <ng-template>
-          <ion-datetime 
-            id="dateFilter" 
-            presentation="month-year" 
-            [(ngModel)]="fechaFiltro"
-            (ionChange)="aplicarFiltro()">
-          </ion-datetime>
+          <ion-datetime id="dateFilter" presentation="month-year" [(ngModel)]="fechaFiltro" (ionChange)="aplicarFiltro()"></ion-datetime>
         </ng-template>
       </ion-modal>
     </ion-item>
 
-    <div class="informe-section">
-      <h3 class="section-title">Análisis de Tendencia</h3>
-      <ion-card class="analysis-card">
-        <ion-card-content>
-          <div style="height: 250px;">
-            <canvas id="ventasChart"></canvas>
-          </div>
-          <div class="ion-text-center ion-padding-top">
-            <ion-badge [color]="totalRealMensual >= totalMetaMensual ? 'success' : 'danger'" style="padding: 8px 15px; font-size: 1rem;">
-              Cumplimiento: {{ (totalRealMensual / (totalMetaMensual || 1)) * 100 | number:'1.0-1' }}%
-            </ion-badge>
-          </div>
-        </ion-card-content>
-      </ion-card>
-    </div>
+    <div *ngIf="segmentoActivo === 'ventas'">
+      <div class="informe-section">
+        <h3 class="section-title">Análisis de Tendencia</h3>
+        <ion-card class="analysis-card">
+          <ion-card-content><div style="height: 250px;"><canvas id="ventasChart"></canvas></div></ion-card-content>
+        </ion-card>
+      </div>
 
-    <div class="informe-section">
-      <h3 class="section-title">Resumen del Mes</h3>
-      <ion-card class="summary-card" style="background: #fff; border-left: 5px solid var(--ion-color-primary);">
-        <ion-card-content>
+      <div class="informe-section">
+        <h3 class="section-title">Resumen del Mes</h3>
+        <ion-card class="summary-card-primary">
           <ion-grid>
             <ion-row>
-              <ion-col size="6">
-                <small style="color: #666;">META TOTAL</small>
-                <div style="font-size: 1.2rem; font-weight: bold;">${{ totalMetaMensual | number:'1.0-0' }}</div>
-              </ion-col>
-              <ion-col size="6">
-                <small style="color: #666;">REAL TOTAL</small>
-                <div style="font-size: 1.2rem; font-weight: bold;" [style.color]="totalRealMensual >= totalMetaMensual ? '#2ecc71' : '#e74c3c'">
-                  ${{ totalRealMensual | number:'1.0-0' }}
+              <ion-col size="6"><small>META TOTAL</small><div>${{ totalMetaMensual | number:'1.0-0' }}</div></ion-col>
+              <ion-col size="6"><small>REAL TOTAL</small><div [style.color]="totalRealMensual >= totalMetaMensual ? '#2ecc71' : '#e74c3c'">${{ totalRealMensual | number:'1.0-0' }}</div></ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card>
+      </div>
+
+      <div class="informe-section">
+        <h3 class="section-title">Detalle Diario</h3>
+        <ion-card class="informe-card" *ngFor="let v of ventasFiltradas">
+          <ion-card-content>
+            <div class="venta-header"><ion-badge color="dark">{{ v.fecha }}</ion-badge><strong>${{ v.real | number:'1.0-0' }}</strong></div>
+            <ion-grid>
+              <ion-row>
+                <ion-col size="6"><small>META: ${{ v.meta | number:'1.0-0' }}</small></ion-col>
+                <ion-col size="6" class="ion-text-right"><small [class]="v.diferencia >= 0 ? 'diff-pos' : 'diff-neg'">DIF: ${{ v.diferencia | number:'1.0-0' }}</small></ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </div>
+
+    <div *ngIf="segmentoActivo === 'comedor'">
+      <div class="informe-section">
+        <h3 class="section-title">1. Movimiento Diario</h3>
+        <ion-grid>
+          <ion-row>
+            <ion-col size="6" *ngFor="let item of comedorFiltrado">
+              <ion-card class="mini-card">
+                <div class="mini-card-date">{{ item.fecha.split('-')[0] }}</div>
+                <div class="mini-card-content">
+                  <strong>{{ item.minuta?.plato }}</strong>
+                  <div *ngFor="let ex of item.existencias | keyvalue" class="stock-line">
+                    {{ asString(ex.key) }}: {{ ex.value }}
+                  </div>
                 </div>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-        </ion-card-content>
-      </ion-card>
-    </div>
+              </ion-card>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
 
-    <div class="informe-section">
-      <h3 class="section-title">Detalle Diario</h3>
-      <ion-card class="informe-card" *ngFor="let v of ventasFiltradas">
-        <ion-card-content>
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-            <ion-badge color="dark">{{ v.fecha }}</ion-badge>
-            <span [style.color]="v.diferencia >= 0 ? '#2ecc71' : '#e74c3c'" style="font-weight: bold;">
-              {{ v.diferencia >= 0 ? '↑ Superávit' : '↓ Déficit' }}
-            </span>
-          </div>
-          <ion-grid>
-            <ion-row>
-              <ion-col size="4"><small>META</small><div>${{ v.meta | number:'1.0-0' }}</div></ion-col>
-              <ion-col size="4" class="ion-text-center"><small>REAL</small><div style="font-weight: 800; color: var(--ion-color-primary);">${{ v.real | number:'1.0-0' }}</div></ion-col>
-              <ion-col size="4" class="ion-text-right"><small>DIF.</small><div [style.color]="v.diferencia >= 0 ? '#2ecc71' : '#e74c3c'">${{ v.diferencia | number:'1.0-0' }}</div></ion-col>
-            </ion-row>
-          </ion-grid>
-        </ion-card-content>
-      </ion-card>
-    </div>
-  </div>
+      <div class="informe-section">
+        <h3 class="section-title">2. Tendencia de Platos</h3>
+        <ion-card class="analysis-card">
+          <ion-card-content><div style="height: 200px;"><canvas id="comedorChart"></canvas></div></ion-card-content>
+        </ion-card>
+      </div>
 
-  <div *ngIf="segmentoActivo === 'comedor'" class="ion-padding">
-    <ion-accordion-group>
-      <ion-accordion *ngFor="let item of historialComedor" [value]="item.fecha">
-        <ion-item slot="header" color="light">
-          <ion-label>
-            <h2><strong>Día: {{ item.fecha }}</strong></h2>
-            <p>Plato: {{ item.minuta?.plato }}</p>
-          </ion-label>
-        </ion-item>
-        <div class="ion-padding" slot="content">
-          <ion-list>
-            <ion-item>🥗 Entrada: {{ item.minuta?.entrada }}</ion-item>
-            <ion-item>🍽️ Plato: {{ item.minuta?.plato }}</ion-item>
-            <ion-list-header><ion-label>STOCK FINAL</ion-label></ion-list-header>
-            <ion-item *ngFor="let entry of item.existencias | keyvalue">
-              <ion-label>{{ asString(entry.key) | uppercase }}</ion-label>
-              <ion-badge color="secondary" slot="end">{{ entry.value }}</ion-badge>
+      <div class="informe-section">
+        <h3 class="section-title">3. Totales Acumulados</h3>
+        <ion-card class="summary-card-list">
+          <ion-list lines="full">
+            <ion-item *ngFor="let t of totalesExistencias">
+              <ion-label><h2>{{ t.nombre | uppercase }}</h2></ion-label>
+              <ion-badge slot="end" color="primary">{{ t.cantidad }}</ion-badge>
             </ion-item>
           </ion-list>
-        </div>
-      </ion-accordion>
-    </ion-accordion-group>
+        </ion-card>
+      </div>
+    </div>
   </div>
-
 </ion-content>
+
+
+
+<app-footer-brbc></app-footer-brbc>

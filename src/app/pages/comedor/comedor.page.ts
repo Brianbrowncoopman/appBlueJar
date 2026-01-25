@@ -1,6 +1,7 @@
 import { Component, OnInit, inject, Injector, runInInjectionContext } from '@angular/core'; // Añadimos inject aquí
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { FooterBrbcComponent } from 'src/app/componets/footer-brbc/footer-brbc.component';
 import { Database, ref, set, onValue, get } from '@angular/fire/database';
 import { 
   IonHeader, IonToolbar, IonTitle, IonContent, IonButtons, 
@@ -25,7 +26,7 @@ import { calendarOutline, restaurantOutline, leafOutline, iceCreamOutline, wineO
     IonBackButton, IonDatetime, IonDatetimeButton, IonModal,
     IonItem, IonInput, IonLabel, IonIcon, IonText,
     IonGrid, IonRow, IonCol,
-    IonItemGroup, IonItemDivider, IonButton // <--- TAMBIÉN AGRÉGALOS AQUÍ
+    IonItemGroup, IonItemDivider, IonButton, FooterBrbcComponent // <--- TAMBIÉN AGRÉGALOS AQUÍ
   ]
 })
 export class ComedorPage implements OnInit {

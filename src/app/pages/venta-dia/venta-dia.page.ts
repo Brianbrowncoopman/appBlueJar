@@ -1,5 +1,6 @@
 import { Component, OnInit, Injector, runInInjectionContext } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FooterBrbcComponent } from 'src/app/componets/footer-brbc/footer-brbc.component';
 import { FormsModule } from '@angular/forms';
 import { Database, ref, set, onValue } from '@angular/fire/database';
 import { inject } from '@angular/core'; 
@@ -24,7 +25,7 @@ import {
     CommonModule, FormsModule, IonHeader, IonToolbar, IonTitle, IonContent, 
     IonGrid, IonRow, IonCol, IonItem, IonLabel, IonText, IonCard, 
     IonBadge, IonIcon, IonButton, IonCardHeader, IonCardTitle,
-    IonDatetime, IonDatetimeButton, IonModal, IonButtons, IonBackButton
+    IonDatetime, IonDatetimeButton, IonModal, IonButtons, IonBackButton, FooterBrbcComponent
   ]
 })
 export class VentaDiaPage implements OnInit {

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { FooterBrbcComponent } from '../componets/footer-brbc/footer-brbc.component';
 import { 
   IonHeader, IonToolbar, IonTitle, IonContent, 
   IonGrid, IonRow, IonCol, IonCard, IonCardHeader, 
@@ -16,7 +17,7 @@ import { thermometerOutline, cubeOutline, cashOutline, restaurantOutline, docume
   imports: [
     IonHeader, IonToolbar, IonTitle, IonContent, 
     IonGrid, IonRow, IonCol, IonCard, IonCardHeader, 
-    IonCardTitle, IonIcon, IonCardSubtitle
+    IonCardTitle, IonIcon, IonCardSubtitle, FooterBrbcComponent
   ],
 })
 export class HomePage {
