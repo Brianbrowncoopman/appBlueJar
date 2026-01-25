@@ -1,4 +1,15 @@
-.gray-background { --background: #f4f5f8; }
+.gray-background {
+  --background: #f4f5f8;
+  
+  // Aumentamos el padding inferior para asegurar que el footer no tape nada
+  --padding-bottom: 100px; 
+}
+
+// Contenedor principal para asegurar el flujo de scroll
+.main-container {
+  display: block;
+  min-height: 100%;
+}
 
 .section-title {
   font-size: 1rem;
@@ -6,64 +17,115 @@
   color: #2d3436;
   border-left: 4px solid var(--ion-color-primary);
   padding-left: 10px;
-  margin: 20px 0 10px 0;
+  margin: 25px 0 12px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .analysis-card {
   border-radius: 15px;
   background: #fff;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  margin: 0; // Evita doble margen con informe-section
 }
 
 .summary-card-primary {
   background: #fff;
   border-radius: 12px;
   border-left: 5px solid var(--ion-color-primary);
-  div { font-size: 1.2rem; font-weight: bold; }
-  small { color: #888; }
+  margin: 0;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  
+  div { 
+    font-size: 1.2rem; 
+    font-weight: bold; 
+    margin-top: 4px;
+  }
+  small { 
+    color: #888; 
+    letter-spacing: 0.5px;
+  }
 }
 
 .informe-card {
   border-radius: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+
   .venta-header {
     display: flex;
     justify-content: space-between;
-    padding-bottom: 5px;
+    align-items: center;
+    padding-bottom: 8px;
     border-bottom: 1px solid #f0f0f0;
+    margin-bottom: 8px;
   }
 }
 
 .diff-pos { color: #2ecc71; font-weight: bold; }
 .diff-neg { color: #e74c3c; font-weight: bold; }
 
-// Estilos Comedor
+// --- Estilos Comedor ---
+
 .mini-card {
   background: white;
   border-radius: 10px;
-  margin: 5px 0;
-  height: 100%;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  margin: 4px 0;
+  height: calc(100% - 8px); // Ajuste para que todas midan igual en la fila
+  box-shadow: 0 3px 6px rgba(0,0,0,0.06);
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 
   .mini-card-date {
-    background: #3880ff;
+    background: var(--ion-color-primary);
     color: white;
     text-align: center;
-    font-size: 0.8rem;
-    padding: 2px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    padding: 4px;
+    text-transform: uppercase;
   }
 
   .mini-card-content {
-    padding: 8px;
+    padding: 10px;
     font-size: 0.75rem;
-    strong { display: block; margin-bottom: 5px; color: #333; }
-    .stock-line { color: #666; border-top: 1px solid #f9f9f9; padding: 2px 0; }
+    flex-grow: 1;
+
+    strong { 
+      display: block; 
+      margin-bottom: 6px; 
+      color: #222; 
+      line-height: 1.1;
+    }
+    
+    .stock-line { 
+      color: #666; 
+      border-top: 1px solid #f2f2f2; 
+      padding: 4px 0;
+      display: flex;
+      justify-content: space-between;
+    }
   }
 }
 
 .summary-card-list {
   border-radius: 15px;
   overflow: hidden;
-  ion-list { padding: 0; }
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  margin-bottom: 20px;
+  
+  ion-list { 
+    padding: 0; 
+  }
+  
+  ion-item {
+    --padding-start: 16px;
+    --inner-padding-end: 16px;
+  }
+}
+
+// Espaciador para las secciones de informe
+.informe-section {
+  margin-bottom: 25px;
 }

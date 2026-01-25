@@ -50,9 +50,10 @@ export class InformesPage implements OnInit {
   historialComedor: any[] = []; 
   historialVentas: any[] = [];   
   ventasFiltradas: any[] = [];
-  comedorFiltrado: any[] = []; // Nueva
-  totalesExistencias: { nombre: string, cantidad: number }[] = []; // Nueva
+  comedorFiltrado: any[] = [];
+  totalesExistencias: { nombre: string, cantidad: number }[] = [];
 
+  // Fecha inicial (Año-Mes)
   fechaFiltro: string = new Date().toISOString().substring(0, 7);
 
   totalMetaMensual: number = 0;
@@ -104,7 +105,12 @@ export class InformesPage implements OnInit {
           const d = data[fecha];
           const metaTotal = (Number(d.metas?.am) || 0) + (Number(d.metas?.almuerzo) || 0) + (Number(d.metas?.tarde) || 0);
           const realTotal = (Number(d.real?.am) || 0) + (Number(d.real?.almuerzo) || 0) + (Number(d.real?.tarde) || 0);
-          return { fecha, meta: metaTotal, real: realTotal, diferencia: realTotal - metaTotal };
+          return { 
+            fecha, 
+            meta: metaTotal, 
+            real: realTotal, 
+            diferencia: realTotal - metaTotal 
+          };
         });
         this.aplicarFiltro();
       }
@@ -115,38 +121,55 @@ export class InformesPage implements OnInit {
 
   aplicarFiltro() {
     if (!this.fechaFiltro) return;
-    const [anio, mes] = this.fechaFiltro.split('-'); 
+
+    // Limpieza de fecha para móviles (elimina la parte T00:00:00 si existe)
+    const fechaLimpia = this.fechaFiltro.split('T')[0];
+    const partes = fechaLimpia.split('-');
+    const anio = partes[0];
+    const mes = partes[1];
     const patron = `-${mes}-${anio}`;
 
-    // Filtro Ventas
+    // --- Filtrar y Ordenar Ventas ---
     this.ventasFiltradas = this.historialVentas
-      .filter(v => v.fecha.includes(patron))
-      .sort((a, b) => a.fecha.localeCompare(b.fecha));
+      .filter(v => v.fecha && v.fecha.includes(patron))
+      .sort((a, b) => {
+        const diaA = parseInt(a.fecha.split('-')[0]);
+        const diaB = parseInt(b.fecha.split('-')[0]);
+        return diaA - diaB;
+      });
 
-    this.totalMetaMensual = this.ventasFiltradas.reduce((acc, v) => acc + v.meta, 0);
-    this.totalRealMensual = this.ventasFiltradas.reduce((acc, v) => acc + v.real, 0);
+    this.totalMetaMensual = this.ventasFiltradas.reduce((acc, v) => acc + (Number(v.meta) || 0), 0);
+    this.totalRealMensual = this.ventasFiltradas.reduce((acc, v) => acc + (Number(v.real) || 0), 0);
     this.diferenciaMensual = this.totalRealMensual - this.totalMetaMensual;
 
-    // Filtro Comedor
+    // --- Filtrar y Ordenar Comedor ---
     this.comedorFiltrado = this.historialComedor
-      .filter(item => item.fecha.includes(patron))
-      .sort((a, b) => a.fecha.localeCompare(b.fecha));
+      .filter(item => item.fecha && item.fecha.includes(patron))
+      .sort((a, b) => {
+        const diaA = parseInt(a.fecha.split('-')[0]);
+        const diaB = parseInt(b.fecha.split('-')[0]);
+        return diaA - diaB;
+      });
 
-    // Calcular Totales Existencias
+    // --- Calcular Totales de Existencias Comedor ---
     const mapa: { [key: string]: number } = {};
     this.comedorFiltrado.forEach(dia => {
       if (dia.existencias) {
         Object.entries(dia.existencias).forEach(([prod, cant]) => {
-          mapa[prod] = (mapa[prod] || 0) + Number(cant);
+          mapa[prod] = (mapa[prod] || 0) + (Number(cant) || 0);
         });
       }
     });
-    this.totalesExistencias = Object.entries(mapa).map(([nombre, cantidad]) => ({ nombre, cantidad }));
+    this.totalesExistencias = Object.entries(mapa).map(([nombre, cantidad]) => ({ 
+      nombre, 
+      cantidad 
+    }));
 
+    // Forzar renderizado de gráficos tras actualizar datos
     setTimeout(() => {
       this.generarGraficoVentas();
       this.generarGraficoComedor();
-    }, 300);
+    }, 400);
   }
 
   generarGraficoVentas() {
@@ -157,13 +180,30 @@ export class InformesPage implements OnInit {
     this.chartVentas = new Chart(canvas, {
       type: 'line',
       data: {
-        labels: this.ventasFiltradas.map(v => v.fecha.split('-')[0]),
+        labels: this.ventasFiltradas.map(v => v.fecha.split('-')[0]), // Solo el día
         datasets: [
-          { label: 'Meta', data: this.ventasFiltradas.map(v => v.meta), borderColor: '#000', tension: 0.3 },
-          { label: 'Real', data: this.ventasFiltradas.map(v => v.real), borderColor: '#2ecc71', backgroundColor: 'rgba(46, 204, 113, 0.1)', fill: true, tension: 0.3 }
+          { 
+            label: 'Meta', 
+            data: this.ventasFiltradas.map(v => v.meta), 
+            borderColor: '#555', 
+            borderDash: [5, 5],
+            tension: 0.3 
+          },
+          { 
+            label: 'Real', 
+            data: this.ventasFiltradas.map(v => v.real), 
+            borderColor: '#2ecc71', 
+            backgroundColor: 'rgba(46, 204, 113, 0.1)', 
+            fill: true, 
+            tension: 0.3 
+          }
         ]
       },
-      options: { responsive: true, maintainAspectRatio: false }
+      options: { 
+        responsive: true, 
+        maintainAspectRatio: false,
+        plugins: { legend: { display: true, position: 'bottom' } }
+      }
     });
   }
 
@@ -181,19 +221,38 @@ export class InformesPage implements OnInit {
           data: this.comedorFiltrado.map(c => {
              return Object.values(c.existencias || {}).reduce((a: any, b: any) => Number(a) + Number(b), 0);
           }),
-          backgroundColor: '#3880ff'
+          backgroundColor: '#3880ff',
+          borderRadius: 5
         }]
       },
-      options: { responsive: true, maintainAspectRatio: false }
+      options: { 
+        responsive: true, 
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } }
+      }
     });
   }
 
   descargarExcel() {
-    const datos = this.segmentoActivo === 'ventas' ? this.ventasFiltradas : this.totalesExistencias;
-    const ws = XLSX.utils.json_to_sheet(datos);
+    let datosParaExportar = [];
+    if (this.segmentoActivo === 'ventas') {
+      datosParaExportar = this.ventasFiltradas.map(v => ({
+        Fecha: v.fecha,
+        Meta: v.meta,
+        Real: v.real,
+        Diferencia: v.diferencia
+      }));
+    } else {
+      datosParaExportar = this.totalesExistencias.map(t => ({
+        Producto: t.nombre.toUpperCase(),
+        Cantidad_Total: t.cantidad
+      }));
+    }
+
+    const ws = XLSX.utils.json_to_sheet(datosParaExportar);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Informe');
-    XLSX.writeFile(wb, `Informe_${this.segmentoActivo}_${this.fechaFiltro}.xlsx`);
+    XLSX.writeFile(wb, `Informe_${this.segmentoActivo}_${this.fechaFiltro.split('T')[0]}.xlsx`);
   }
 
   asString(value: any): string { return String(value || ''); }

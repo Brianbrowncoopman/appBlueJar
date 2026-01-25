@@ -24,8 +24,9 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="gray-background">
-  <div class="ion-padding">
+<ion-content class="gray-background" scroll-y="true">
+  <div class="ion-padding main-container">
+    
     <ion-item lines="none" class="filter-item">
       <ion-label>Periodo:</ion-label>
       <ion-datetime-button datetime="dateFilter"></ion-datetime-button>
@@ -64,7 +65,9 @@
             <ion-grid>
               <ion-row>
                 <ion-col size="6"><small>META: ${{ v.meta | number:'1.0-0' }}</small></ion-col>
-                <ion-col size="6" class="ion-text-right"><small [class]="v.diferencia >= 0 ? 'diff-pos' : 'diff-neg'">DIF: ${{ v.diferencia | number:'1.0-0' }}</small></ion-col>
+                <ion-col size="6" class="ion-text-right">
+                  <small [class]="v.diferencia >= 0 ? 'diff-pos' : 'diff-neg'">DIF: ${{ v.diferencia | number:'1.0-0' }}</small>
+                </ion-col>
               </ion-row>
             </ion-grid>
           </ion-card-content>
@@ -111,9 +114,9 @@
         </ion-card>
       </div>
     </div>
+
+    <div style="height: 80px;"></div>
   </div>
 </ion-content>
-
-
 
 <app-footer-brbc></app-footer-brbc>
