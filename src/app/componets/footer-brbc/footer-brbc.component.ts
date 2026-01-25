@@ -12,34 +12,34 @@ import { IonFooter, IonToolbar } from '@ionic/angular/standalone';
     </ion-footer>
   `,
   styles: [`
-    ion-footer {
-      background: white;
-      display: block;
-      /* Asegura que esté al frente y pegado abajo */
-      position: relative; 
-      bottom: 0;
-    }
-    .footer-firma {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 8px 0;
-      border-top: 1px solid #f0f0f0;
-    }
-    .label {
-      color: #aaa;
-      font-size: 0.6rem;
-      letter-spacing: 1px;
-    }
-    .marca {
-      color: #3880ff;
-      font-weight: 800;
-      font-size: 0.85rem;
-      letter-spacing: 2px;
-      margin-top: -2px;
-    }
-  `],
+  ion-footer {
+    background: white;
+    border-top: 1px solid #f0f0f0;
+    /* Esto es clave para que se vea en móviles modernos */
+    padding-bottom: var(--ion-safe-area-bottom, 0); 
+    display: block;
+  }
+  .footer-firma {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 45px; /* Altura fija para asegurar visibilidad */
+  }
+  .label {
+    color: #aaa;
+    font-size: 0.6rem;
+    letter-spacing: 1px;
+    margin: 0;
+  }
+  .marca {
+    color: #3880ff;
+    font-weight: 800;
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    margin: 0;
+  }
+`],
   standalone: true,
   imports: [IonFooter, IonToolbar]
 })
