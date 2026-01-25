@@ -1,113 +1,88 @@
 <ion-header class="ion-no-border">
-  <ion-toolbar>
-    <ion-title>Resumen de Ventas</ion-title>
-    <ion-badge slot="end" color="light" class="ion-margin-end">
+  <ion-toolbar color="light" style="--border-style: none;">
+    <ion-title style="font-weight: 700; color: #212529;">Resumen de Ventas</ion-title>
+    <ion-badge slot="end" color="dark" class="ion-margin-end" style="font-weight: 400;">
+      <ion-icon name="calendar-outline" style="margin-right: 5px;"></ion-icon>
       {{ fechaActual }}
     </ion-badge>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content class="ion-padding gray-background">
   
-  <ion-card class="main-table-card">
-    <ion-grid>
-      <ion-row class="header-row">
-        <ion-col size="4">Turno</ion-col>
-        <ion-col size="4">Meta</ion-col>
-        <ion-col size="4">Real</ion-col>
-      </ion-row>
+  <h2 class="section-title">Flujo de Caja por Turno</h2>
 
-      <ion-row class="data-row">
-        <ion-col size="4"><ion-text color="medium">Venta AM</ion-text></ion-col>
-        <ion-col size="4"><strong>${{ metas.am }}</strong></ion-col>
-        <ion-col size="4">
-          <ion-input type="number" [(ngModel)]="real.am" placeholder="0" class="custom-input"></ion-input>
+  <div *ngFor="let turno of ['am', 'almuerzo', 'tarde']" 
+       [class]="'turno-card ' + turno">
+    
+    <div class="turno-header">
+      <ion-icon [name]="getIcono(turno)"></ion-icon>
+      <ion-text><strong>{{ turno | uppercase }}</strong></ion-text>
+    </div>
+
+    <ion-grid class="ion-no-padding">
+      <ion-row>
+        <ion-col size="6" class="ion-padding-horizontal">
+          <ion-label class="input-label">Meta Esperada</ion-label>
+          <div class="input-wrapper">
+            <span class="currency">$</span>
+            <input type="text" 
+                   [value]="metasDisplay[turno]"
+                   (input)="formatInput('metas', turno, $event)"
+                   (focus)="clearIfZero('metasDisplay', turno)"
+                   placeholder="0.-"
+                   class="minimal-input large-number">
+          </div>
+        </ion-col>
+
+        <ion-col size="6" class="ion-padding-horizontal">
+          <ion-label class="input-label">Venta Real</ion-label>
+          <div class="input-wrapper">
+            <span class="currency">$</span>
+            <input type="text" 
+                   [value]="realDisplay[turno]"
+                   (input)="formatInput('real', turno, $event)"
+                   (focus)="clearIfZero('realDisplay', turno)"
+                   placeholder="0.-"
+                   class="minimal-input large-number">
+          </div>
         </ion-col>
       </ion-row>
 
-      <ion-row class="data-row">
-        <ion-col size="4"><ion-text color="medium">Almuerzo</ion-text></ion-col>
-        <ion-col size="4"><strong>${{ metas.almuerzo }}</strong></ion-col>
-        <ion-col size="4">
-          <ion-input type="number" [(ngModel)]="real.almuerzo" placeholder="0" class="custom-input"></ion-input>
-        </ion-col>
-      </ion-row>
-
-      <ion-row class="data-row">
-        <ion-col size="4"><ion-text color="medium">Venta Tarde</ion-text></ion-col>
-        <ion-col size="4"><strong>${{ metas.tarde }}</strong></ion-col>
-        <ion-col size="4">
-          <ion-input type="number" [(ngModel)]="real.tarde" placeholder="0" class="custom-input"></ion-input>
+      <ion-row class="turno-footer">
+        <ion-col size="12" class="ion-text-right">
+          <div class="diff-badge" [ngClass]="(metas[turno] - real[turno]) > 0 ? 'bad' : 'good'">
+            {{ (metas[turno] - real[turno]) > 0 ? 'Faltan: ' : 'Sobran: ' }}
+            ${{ (metas[turno] >= real[turno] ? metas[turno] - real[turno] : real[turno] - metas[turno]) | number:'1.0-0' }}.-
+          </div>
         </ion-col>
       </ion-row>
     </ion-grid>
-  </ion-card>
-
-  <div class="footer-summary">
-    <ion-item lines="none">
-      <ion-label>Meta del Día</ion-label>
-      <ion-text slot="end" color="primary"><h2>${{ metas.dia }}</h2></ion-text>
-    </ion-item>
-
-    <ion-card class="diff-card" [ngClass]="{'ok': diferenciaTotal <= 0, 'pending': diferenciaTotal > 0}">
-      <ion-item lines="none" color="transparent">
-        <ion-label>
-          <p>Falta / Sobra</p>
-          <h1 *ngIf="diferenciaTotal > 0">Faltan: ${{ diferenciaTotal }}</h1>
-          <h1 *ngIf="diferenciaTotal <= 0">Sobra: ${{ diferenciaTotal * -1 }}</h1>
-        </ion-label>
-      </ion-item>
-    </ion-card>
   </div>
 
-  <div class="operacion-section">
-  <h3 class="section-title">Control Operativo</h3>
-  
-  <ion-card class="info-card">
-    <ion-list lines="full">
-      <ion-item>
-        <ion-label position="stacked">Menú del Día</ion-label>
-        <ion-input [(ngModel)]="operacion.menuDelDia" placeholder="Nombre del menú"></ion-input>
-      </ion-item>
+  <div class="final-summary">
+    <div class="total-row">
+      <ion-text class="total-label">Meta Total Proyectada</ion-text>
+      <h2 class="total-amount">${{ metaDelDiaCalculada | number:'1.0-0' }}.-</h2>
+    </div>
 
-      <ion-item>
-        <ion-label position="stacked">Plato Principal Sugerido</ion-label>
-        <ion-input [(ngModel)]="operacion.platoPrincipal" placeholder="Escribir sugerencia"></ion-input>
-      </ion-item>
+    <div class="status-box" [ngClass]="diferenciaTotal > 0 ? 'status-error' : 'status-success'">
+      <div class="status-header">
+        <ion-icon [name]="diferenciaTotal > 0 ? 'alert-circle' : 'checkmark-circle'"></ion-icon>
+        <span>{{ diferenciaTotal > 0 ? 'PENDIENTE' : 'META CUMPLIDA' }}</span>
+      </div>
+      <h1 class="status-value">
+        {{ diferenciaTotal > 0 ? 'Faltan: ' : 'Sobran: ' }} 
+        ${{ (diferenciaTotal >= 0 ? diferenciaTotal : diferenciaTotal * -1) | number:'1.0-0' }}.-
+      </h1>
+    </div>
 
-      <ion-item>
-        <ion-label position="stacked">Entrada Sugestiva</ion-label>
-        <ion-input [(ngModel)]="operacion.entrada" placeholder="Escribir sugerencia"></ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-label position="stacked">Postre Sugestivo</ion-label>
-        <ion-input [(ngModel)]="operacion.postre" placeholder="Escribir sugerencia"></ion-input>
-      </ion-item>
-    </ion-list>
-  </ion-card>
-
-  <ion-card class="info-card warning-border">
-    <ion-list lines="full">
-      <ion-item>
-        <ion-label position="stacked">Desviar</ion-label>
-        <ion-input [(ngModel)]="operacion.desviar" placeholder="Instrucciones de desvío"></ion-input>
-      </ion-item>
-
-      <ion-item-divider color="light">
-        <ion-label>Productos 86 (Agotados)</ion-label>
-      </ion-item-divider>
-
-      <ion-item *ngFor="let prod of [0,1,2]; let i = index">
-        <ion-icon name="close-circle-outline" slot="start" color="danger"></ion-icon>
-        <ion-input [(ngModel)]="operacion.productos86[i]" placeholder="Producto agotado {{i+1}}"></ion-input>
-      </ion-item>
-    </ion-list>
-  </ion-card>
-  
-  <ion-button expand="block" shape="round" color="primary" class="ion-margin-top ion-margin-bottom">
-    Guardar Reporte Completo
-  </ion-button>
-</div>
+    <ion-button expand="block" 
+                class="share-button" 
+                (click)="compartirReporte()">
+      <ion-icon name="logo-whatsapp" slot="start"></ion-icon>
+      Enviar Reporte de Cierre
+    </ion-button>
+  </div>
 
 </ion-content>
