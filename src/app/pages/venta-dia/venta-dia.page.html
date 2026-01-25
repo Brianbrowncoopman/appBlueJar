@@ -1,6 +1,6 @@
-<ion-header class="ion-no-border">
+<!--<ion-header class="ion-no-border">
   <ion-toolbar color="light" style="--border-style: none;">
-    <ion-title style="font-weight: 700; color: #212529;">Resumen de Ventas</ion-title>
+    <ion-title style="font-weight: 700; color: #212529;"> Ventas</ion-title>
     <ion-badge slot="end" color="dark" class="ion-margin-end" style="font-weight: 400;">
       <ion-icon name="calendar-outline" style="margin-right: 5px;"></ion-icon>
       {{ fechaActual }}
@@ -18,6 +18,117 @@
     <div class="turno-header">
       <ion-icon [name]="getIcono(turno)"></ion-icon>
       <ion-text><strong>{{ turno | uppercase }}</strong></ion-text>
+    </div>
+
+    <ion-grid class="ion-no-padding">
+      <ion-row>
+        <ion-col size="6" class="ion-padding-horizontal">
+          <ion-label class="input-label">Meta Esperada</ion-label>
+          <div class="input-wrapper">
+            <span class="currency">$</span>
+            <input type="text" 
+                   [value]="metasDisplay[turno]"
+                   (input)="formatInput('metas', turno, $event)"
+                   (focus)="clearIfZero('metasDisplay', turno)"
+                   placeholder="0.-"
+                   class="minimal-input large-number">
+          </div>
+        </ion-col>
+
+
+        <ion-col size="6" class="ion-padding-horizontal">
+          <ion-label class="input-label">Venta Real</ion-label>
+          <div class="input-wrapper">
+            <span class="currency">$</span>
+            <input type="text" 
+                   [value]="realDisplay[turno]"
+                   (input)="formatInput('real', turno, $event)"
+                   (focus)="clearIfZero('realDisplay', turno)"
+                   placeholder="0.-"
+                   class="minimal-input large-number">
+          </div>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="turno-footer">
+        <ion-col size="12" class="ion-text-right">
+          <div class="diff-badge" [ngClass]="(metas[turno] - real[turno]) > 0 ? 'bad' : 'good'">
+            {{ (metas[turno] - real[turno]) > 0 ? 'Faltan: ' : 'Sobran: ' }}
+            ${{ (metas[turno] >= real[turno] ? metas[turno] - real[turno] : real[turno] - metas[turno]) | number:'1.0-0' }}.-
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <div class="final-summary">
+    <div class="total-row">
+      <ion-text class="total-label">Meta Total Proyectada</ion-text>
+      <h2 class="total-amount">${{ metaDelDiaCalculada | number:'1.0-0' }}.-</h2>
+    </div>
+
+    <div class="status-box" [ngClass]="diferenciaTotal > 0 ? 'status-error' : 'status-success'">
+      <div class="status-header">
+        <ion-icon [name]="diferenciaTotal > 0 ? 'alert-circle' : 'checkmark-circle'"></ion-icon>
+        <span>{{ diferenciaTotal > 0 ? 'PENDIENTE' : 'META CUMPLIDA' }}</span>
+      </div>
+      <h1 class="status-value">
+        {{ diferenciaTotal > 0 ? 'Faltan: ' : 'Sobran: ' }} 
+        ${{ (diferenciaTotal >= 0 ? diferenciaTotal : diferenciaTotal * -1) | number:'1.0-0' }}.-
+      </h1>
+    </div>
+
+    <ion-button expand="block" 
+                class="share-button" 
+                (click)="compartirReporte()">
+      <ion-icon name="logo-whatsapp" slot="start"></ion-icon>
+      Enviar Reporte de Cierre
+    </ion-button>
+  </div>
+
+</ion-content>-->
+
+
+<ion-header class="ion-no-border">
+  <ion-toolbar color="light" style="--border-style: none;">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" text="Volver"></ion-back-button>
+    </ion-buttons>
+
+
+
+    <ion-title style="font-weight: 700; color: #212529;">Ventas</ion-title>
+    
+    <ion-buttons slot="end">
+      <ion-datetime-button datetime="datetime" class="ion-margin-end"></ion-datetime-button>
+      <ion-modal [keepContentsMounted]="true">
+        <ng-template>
+          <ion-datetime 
+            id="datetime" 
+            presentation="date" 
+            (ionChange)="cambiarFecha($event)">
+          </ion-datetime>
+        </ng-template>
+      </ion-modal>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding gray-background">
+  
+  <h2 class="section-title">Flujo de Caja por Turno</h2>
+
+  <div *ngFor="let turno of ['am', 'almuerzo', 'tarde']" 
+       [class]="'turno-card ' + turno">
+    
+    <div class="turno-header">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <ion-icon [name]="getIcono(turno)"></ion-icon>
+        <ion-text><strong>{{ turno | uppercase }}</strong></ion-text>
+      </div>
+      <ion-button fill="clear" size="small" (click)="cerrarTurno(turno)" style="--color: #6c757d;">
+        <ion-icon name="save-outline" slot="icon-only"></ion-icon>
+      </ion-button>
     </div>
 
     <ion-grid class="ion-no-padding">
@@ -77,12 +188,29 @@
       </h1>
     </div>
 
-    <ion-button expand="block" 
-                class="share-button" 
-                (click)="compartirReporte()">
-      <ion-icon name="logo-whatsapp" slot="start"></ion-icon>
-      Enviar Reporte de Cierre
-    </ion-button>
+    <div style="margin-top: 20px;">
+      <ion-button *ngIf="!diaSalvado"
+                  expand="block" 
+                  color="dark"
+                  style="--border-radius: 12px; margin-bottom: 10px;"
+                  (click)="cerrarDia()"
+                  [disabled]="!todoCompleto">
+        <ion-icon name="cloud-upload-outline" slot="start"></ion-icon>
+        FINALIZAR Y SALVAR DÍA
+      </ion-button>
+
+      <div *ngIf="diaSalvado" class="ion-text-center ion-padding" style="color: #2dd36f; font-weight: 700;">
+        <ion-icon name="checkmark-done-circle" style="font-size: 24px; vertical-align: middle;"></ion-icon>
+        ESTE DÍA YA FUE CERRADO Y SALVADO
+      </div>
+
+      <ion-button expand="block" 
+                  class="share-button" 
+                  (click)="compartirReporte()">
+        <ion-icon name="logo-whatsapp" slot="start"></ion-icon>
+        Enviar Reporte de Cierre
+      </ion-button>
+    </div>
   </div>
 
 </ion-content>
