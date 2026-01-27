@@ -7,7 +7,7 @@ import {
   IonCardTitle, IonIcon, IonCardSubtitle 
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { thermometerOutline, cubeOutline, cashOutline, restaurantOutline, documentTextOutline } from 'ionicons/icons';
+import { thermometerOutline, cubeOutline, cashOutline, restaurantOutline, documentTextOutline, cartOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-home',
@@ -23,7 +23,7 @@ import { thermometerOutline, cubeOutline, cashOutline, restaurantOutline, docume
 export class HomePage {
   constructor(private router: Router) {
     // Registrar los iconos para Standalone
-    addIcons({thermometerOutline,cubeOutline,restaurantOutline,cashOutline,documentTextOutline});
+    addIcons({restaurantOutline,cashOutline,documentTextOutline,cartOutline,thermometerOutline,cubeOutline});
   }
 
   navegar(ruta: string) {

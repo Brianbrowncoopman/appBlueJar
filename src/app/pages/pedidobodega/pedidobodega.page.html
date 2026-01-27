@@ -1,0 +1,68 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="light">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" text="Volver"></ion-back-button>
+    </ion-buttons>
+    <ion-title style="font-weight: 800;">Pedido a Bodega</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding gray-background">
+  <div class="pedido-card">
+    
+    <ion-item lines="none" class="custom-item">
+      <ion-select 
+        label="Área Solicitante" 
+        label-placement="stacked"
+        [(ngModel)]="area" 
+        placeholder="Seleccione Área" 
+        interface="action-sheet">
+        <ion-select-option value="cocina">COCINA</ion-select-option>
+        <ion-select-option value="barra">BARRA</ion-select-option>
+        <ion-select-option value="comedor">COMEDOR</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <h3 style="font-weight: 700; color: #444; margin: 20px 0 10px 10px;">Lista de Productos</h3>
+    
+    <div *ngFor="let item of items; let i = index" class="product-row">
+      <ion-grid class="ion-no-padding">
+        <ion-row class="ion-align-items-center">
+          <ion-col size="7">
+            <ion-input [(ngModel)]="item.producto" placeholder="Producto..." class="inner-input"></ion-input>
+          </ion-col>
+          <ion-col size="3">
+            <ion-input type="number" [(ngModel)]="item.cantidad" placeholder="Cant." class="inner-input"></ion-input>
+          </ion-col>
+          <ion-col size="2" class="ion-text-center">
+            <ion-button fill="clear" color="danger" (click)="eliminarFila(i)" [disabled]="items.length === 1">
+              <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+
+    <ion-button fill="clear" size="small" (click)="agregarFila()" class="add-btn">
+      <ion-icon name="add-outline" slot="start"></ion-icon>
+      Añadir otro producto
+    </ion-button>
+
+    <div class="ion-margin-top" style="border-top: 1px solid #eee; padding-top: 15px;">
+      <ion-button expand="block" color="dark" (click)="guardarPedido()" [disabled]="guardado">
+        <ion-icon name="save-outline" slot="start"></ion-icon>
+        {{ guardado ? 'REGISTRADO EN BD' : '1. GUARDAR PEDIDO' }}
+      </ion-button>
+
+      <ion-button expand="block" color="success" (click)="enviarWhatsApp()" [disabled]="!guardado" style="margin-top: 15px;">
+        <ion-icon name="logo-whatsapp" slot="start"></ion-icon>
+        2. ENVIAR POR WHATSAPP
+      </ion-button>
+
+      <ion-button *ngIf="guardado" fill="clear" expand="block" (click)="reiniciarFormulario()" color="medium" style="margin-top: 10px;">
+        Limpiar para nuevo pedido
+      </ion-button>
+    </div>
+
+  </div>
+</ion-content>

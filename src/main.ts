@@ -11,6 +11,10 @@ import { environment } from './environments/environment';
 import { routes } from './app/app.routes';
 import { AppComponent } from './app/app.component';
 
+// --- IMPORTACIONES DE FIREBASE ---
+
+import { getAuth, provideAuth } from '@angular/fire/auth';
+
 
 
 bootstrapApplication(AppComponent, {
@@ -21,6 +25,7 @@ bootstrapApplication(AppComponent, {
 
     //Inicializacion de Firebase
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
+    provideAuth(() => getAuth()),
     provideDatabase(() => getDatabase()),
   ],
 });

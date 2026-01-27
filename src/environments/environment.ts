@@ -6,14 +6,16 @@ export const environment = {
 
   production: false,
   firebaseConfig: {
-    apiKey: "TAIzaSyDaOS3eTVAJB5mIfIspOS7xQYBeEv_cIhQ",
+    apiKey: "AIzaSyDaOS3eTVAJB5mIfIspOS7xQYBeEv_cIhQ",
+    /*apiKey: "TAIzaSyDaOS3eTVAJB5mIfIspOS7xQYBeEv_cIhQ",*/
     authDomain: "restaurante-bd70c.firebaseapp.com",
     databaseURL: "https://restaurante-bd70c-default-rtdb.firebaseio.com", // Muy importante para Realtime Database
-    projectId: "Trestaurante-bd70c",
+    projectId: "restaurante-bd70c",
     storageBucket: "restaurante-bd70c.firebasestorage.app",
     messagingSenderId: "89230909549",
-    appId: "1:89230909549:web:3492fef72ef3ed10885f64",
-    measurementId: "G-38SMP11Z2H"
+    /*appId: "1:89230909549:web:3492fef72ef3ed10885f64",*/
+    appId: "1:89230909549:web:b3abdfb67cb2c571885f64",
+    measurementId: "G-1CD4W5Q1HB"
   }
 };
 

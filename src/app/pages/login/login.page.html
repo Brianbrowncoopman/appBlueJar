@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-title>Acceso al Sistema</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div style="text-align: center; margin-top: 50px;">
+    <ion-icon name="restaurant-outline" style="font-size: 80px;"></ion-icon>
+    <h2>Restaurante Admin</h2>
+  </div>
+
+  <ion-item lines="full" class="ion-margin-top">
+    <ion-label position="floating">Correo Electrónico</ion-label>
+    <ion-input type="email" [(ngModel)]="email"></ion-input>
+  </ion-item>
+
+  <ion-item lines="full">
+    <ion-label position="floating">Contraseña</ion-label>
+    <ion-input type="password" [(ngModel)]="password"></ion-input>
+  </ion-item>
+
+  <ion-button expand="block" (click)="iniciarSesion()" class="ion-margin-top" color="dark">
+    Entrar
+  </ion-button>
+</ion-content>

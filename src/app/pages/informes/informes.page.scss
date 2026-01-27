@@ -129,3 +129,25 @@
 .informe-section {
   margin-bottom: 25px;
 }
+
+.venta-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #f0f0f0;
+  margin-bottom: 8px;
+
+  div {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  ion-button {
+    --padding-start: 0;
+    --padding-end: 0;
+    height: 24px;
+    margin: 0;
+  }
+}

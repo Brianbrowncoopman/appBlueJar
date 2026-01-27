@@ -48,9 +48,20 @@
         </ion-card>
       </ion-col>
 
+      <ion-col size="6">
+        <ion-card class="menu-card" (click)="navegar('pedido-bodega')">
+          <div class="card-icon-wrapper pedidos-bg">
+            <ion-icon name="cart-outline"></ion-icon>
+          </div>
+          <ion-card-header>
+            <ion-card-title>Pedidos</ion-card-title>
+          </ion-card-header>
+        </ion-card>
+      </ion-col>
+
     </ion-row>
   </ion-grid>
 
-  </ion-content>
+</ion-content>
 
 <app-footer-brbc></app-footer-brbc>

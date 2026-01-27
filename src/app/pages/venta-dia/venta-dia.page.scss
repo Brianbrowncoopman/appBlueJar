@@ -185,3 +185,26 @@
     padding: 8px 4px;
   }
 }
+
+/* ... mantén lo anterior y añade esto ... */
+
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  padding-right: 2px !important; // Espacio para el botón
+
+  .minimal-input {
+    flex: 1;
+    width: 100%;
+    // ... rest
+  }
+
+  .save-mini {
+    --color: #2dd36f;
+    --padding-start: 2px;
+    --padding-end: 2px;
+    margin: 0;
+    height: 28px;
+    font-size: 1.1rem;
+  }
+}

@@ -1,0 +1,44 @@
+.pedido-card {
+  background: white;
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  margin-bottom: 20px;
+}
+
+.product-row {
+  background: #f9f9f9;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  border: 1px solid #ddd;
+  padding: 4px;
+
+  // ESTO FUERZA LA VISIBILIDAD DEL TEXTO
+  ion-input {
+    --color: #000000 !important; // Texto negro
+    --placeholder-color: #666666 !important; // Placeholder gris oscuro
+    --placeholder-opacity: 1;
+    font-size: 0.95rem;
+    font-weight: 500;
+  }
+}
+
+.custom-item {
+  --background: #ffffff;
+  --color: #000000 !important; // Texto del label negro
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 10px;
+
+  ion-select {
+    --placeholder-color: #444444;
+    --placeholder-opacity: 1;
+    color: #000000 !important;
+    width: 100%;
+  }
+}
+
+// Para asegurar que el texto que escribes sea negro siempre
+ion-input, ion-select, ion-select-option {
+  color: black !important;
+}

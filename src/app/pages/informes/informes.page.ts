@@ -2,6 +2,7 @@ import { Component, OnInit, inject, runInInjectionContext, EnvironmentInjector }
 import { CommonModule, DecimalPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Chart, registerables } from 'chart.js';
+
 import { FooterBrbcComponent } from 'src/app/componets/footer-brbc/footer-brbc.component';
 import * as XLSX from 'xlsx';
 import { 
@@ -22,7 +23,7 @@ import {
   cashOutline,
   trendingUpOutline,
   downloadOutline,
-  statsChartOutline
+  statsChartOutline, logoWhatsapp
 } from 'ionicons/icons';
 
 Chart.register(...registerables);
@@ -43,6 +44,7 @@ Chart.register(...registerables);
   ]
 })
 export class InformesPage implements OnInit {
+  
   private database: Database = inject(Database);
   private injector = inject(EnvironmentInjector);
 
@@ -53,7 +55,6 @@ export class InformesPage implements OnInit {
   comedorFiltrado: any[] = [];
   totalesExistencias: { nombre: string, cantidad: number }[] = [];
 
-  // Fecha inicial (Año-Mes)
   fechaFiltro: string = new Date().toISOString().substring(0, 7);
 
   totalMetaMensual: number = 0;
@@ -67,7 +68,7 @@ export class InformesPage implements OnInit {
     addIcons({ 
       calendarOutline, documentTextOutline, restaurantOutline,
       chevronDownOutline, cashOutline, trendingUpOutline, 
-      downloadOutline, statsChartOutline
+      downloadOutline, statsChartOutline, logoWhatsapp
     });
   }
 
@@ -121,15 +122,12 @@ export class InformesPage implements OnInit {
 
   aplicarFiltro() {
     if (!this.fechaFiltro) return;
-
-    // Limpieza de fecha para móviles (elimina la parte T00:00:00 si existe)
     const fechaLimpia = this.fechaFiltro.split('T')[0];
     const partes = fechaLimpia.split('-');
     const anio = partes[0];
     const mes = partes[1];
     const patron = `-${mes}-${anio}`;
 
-    // --- Filtrar y Ordenar Ventas ---
     this.ventasFiltradas = this.historialVentas
       .filter(v => v.fecha && v.fecha.includes(patron))
       .sort((a, b) => {
@@ -142,7 +140,6 @@ export class InformesPage implements OnInit {
     this.totalRealMensual = this.ventasFiltradas.reduce((acc, v) => acc + (Number(v.real) || 0), 0);
     this.diferenciaMensual = this.totalRealMensual - this.totalMetaMensual;
 
-    // --- Filtrar y Ordenar Comedor ---
     this.comedorFiltrado = this.historialComedor
       .filter(item => item.fecha && item.fecha.includes(patron))
       .sort((a, b) => {
@@ -151,7 +148,6 @@ export class InformesPage implements OnInit {
         return diaA - diaB;
       });
 
-    // --- Calcular Totales de Existencias Comedor ---
     const mapa: { [key: string]: number } = {};
     this.comedorFiltrado.forEach(dia => {
       if (dia.existencias) {
@@ -160,12 +156,8 @@ export class InformesPage implements OnInit {
         });
       }
     });
-    this.totalesExistencias = Object.entries(mapa).map(([nombre, cantidad]) => ({ 
-      nombre, 
-      cantidad 
-    }));
+    this.totalesExistencias = Object.entries(mapa).map(([nombre, cantidad]) => ({ nombre, cantidad }));
 
-    // Forzar renderizado de gráficos tras actualizar datos
     setTimeout(() => {
       this.generarGraficoVentas();
       this.generarGraficoComedor();
@@ -176,34 +168,16 @@ export class InformesPage implements OnInit {
     const canvas = document.getElementById('ventasChart') as HTMLCanvasElement;
     if (!canvas || this.ventasFiltradas.length === 0) return;
     if (this.chartVentas) this.chartVentas.destroy();
-
     this.chartVentas = new Chart(canvas, {
       type: 'line',
       data: {
-        labels: this.ventasFiltradas.map(v => v.fecha.split('-')[0]), // Solo el día
+        labels: this.ventasFiltradas.map(v => v.fecha.split('-')[0]),
         datasets: [
-          { 
-            label: 'Meta', 
-            data: this.ventasFiltradas.map(v => v.meta), 
-            borderColor: '#555', 
-            borderDash: [5, 5],
-            tension: 0.3 
-          },
-          { 
-            label: 'Real', 
-            data: this.ventasFiltradas.map(v => v.real), 
-            borderColor: '#2ecc71', 
-            backgroundColor: 'rgba(46, 204, 113, 0.1)', 
-            fill: true, 
-            tension: 0.3 
-          }
+          { label: 'Meta', data: this.ventasFiltradas.map(v => v.meta), borderColor: '#555', borderDash: [5, 5], tension: 0.3 },
+          { label: 'Real', data: this.ventasFiltradas.map(v => v.real), borderColor: '#2ecc71', backgroundColor: 'rgba(46, 204, 113, 0.1)', fill: true, tension: 0.3 }
         ]
       },
-      options: { 
-        responsive: true, 
-        maintainAspectRatio: false,
-        plugins: { legend: { display: true, position: 'bottom' } }
-      }
+      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: true, position: 'bottom' } } }
     });
   }
 
@@ -211,44 +185,44 @@ export class InformesPage implements OnInit {
     const canvas = document.getElementById('comedorChart') as HTMLCanvasElement;
     if (!canvas || this.comedorFiltrado.length === 0) return;
     if (this.chartComedor) this.chartComedor.destroy();
-
     this.chartComedor = new Chart(canvas, {
       type: 'bar',
       data: {
         labels: this.comedorFiltrado.map(c => c.fecha.split('-')[0]),
         datasets: [{
           label: 'Platos Totales',
-          data: this.comedorFiltrado.map(c => {
-             return Object.values(c.existencias || {}).reduce((a: any, b: any) => Number(a) + Number(b), 0);
-          }),
-          backgroundColor: '#3880ff',
-          borderRadius: 5
+          data: this.comedorFiltrado.map(c => Object.values(c.existencias || {}).reduce((a: any, b: any) => Number(a) + Number(b), 0)),
+          backgroundColor: '#3880ff', borderRadius: 5
         }]
       },
-      options: { 
-        responsive: true, 
-        maintainAspectRatio: false,
-        plugins: { legend: { display: false } }
-      }
+      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
     });
+  }
+
+  async compartirWhatsApp(fecha: string) {
+    // 1. Buscamos el día en el array que YA TENEMOS cargado en la tabla
+    const venta = this.ventasFiltradas.find(v => v.fecha === fecha);
+    
+    // 2. Si no lo encuentra, usaremos datos de prueba para ver si el mensaje cambia
+    const msg = `*REPORTE DE VENTAS - ${fecha}*
+  ---------------------------------------
+  📊 *META TOTAL:* $${venta ? venta.meta.toLocaleString() : '0'}
+  💰 *REAL TOTAL:* $${venta ? venta.real.toLocaleString() : '0'}
+  ⚖️ *DIFERENCIA:* $${venta ? venta.diferencia.toLocaleString() : '0'}
+  ---------------------------------------
+  ✅ *ESTADO:* Si ves esto, el código se actualizó.`;
+
+    const url = `https://wa.me/?text=${encodeURIComponent(msg)}`;
+    window.open(url, '_blank');
   }
 
   descargarExcel() {
     let datosParaExportar = [];
     if (this.segmentoActivo === 'ventas') {
-      datosParaExportar = this.ventasFiltradas.map(v => ({
-        Fecha: v.fecha,
-        Meta: v.meta,
-        Real: v.real,
-        Diferencia: v.diferencia
-      }));
+      datosParaExportar = this.ventasFiltradas.map(v => ({ Fecha: v.fecha, Meta: v.meta, Real: v.real, Diferencia: v.diferencia }));
     } else {
-      datosParaExportar = this.totalesExistencias.map(t => ({
-        Producto: t.nombre.toUpperCase(),
-        Cantidad_Total: t.cantidad
-      }));
+      datosParaExportar = this.totalesExistencias.map(t => ({ Producto: t.nombre.toUpperCase(), Cantidad_Total: t.cantidad }));
     }
-
     const ws = XLSX.utils.json_to_sheet(datosParaExportar);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Informe');
