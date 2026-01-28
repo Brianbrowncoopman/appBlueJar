@@ -1,0 +1,70 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="light" style="--border-style: none;">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/control-temperatura" text="Volver"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title style="font-weight: 700; color: #212529;">Temp. Comedor</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-datetime-button datetime="datetime-comedor" class="ion-margin-end"></ion-datetime-button>
+      <ion-modal [keepContentsMounted]="true">
+        <ng-template>
+          <ion-datetime 
+            id="datetime-comedor" 
+            presentation="date" 
+            (ionChange)="cambiarFecha($event)">
+          </ion-datetime>
+        </ng-template>
+      </ion-modal>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding gray-background">
+  <div class="header-section">
+    <h1>Equipos Comedor</h1>
+    <p>Registro obligatorio: 07:00 - 14:00 - 21:00</p>
+  </div>
+
+  <ng-container *ngIf="(authService.userProfile$ | async) as perfil; else loading">
+    <ion-card *ngFor="let equipo of equipos" class="equipo-card">
+      <ion-card-header>
+        <ion-card-title>{{ equipo.nombre | uppercase }}</ion-card-title>
+      </ion-card-header>
+
+      <ion-grid>
+        <ion-row>
+          <ion-col size="4" *ngFor="let bloque of ['07:00', '14:00', '21:00']">
+            <div class="temp-input-group">
+              <ion-label class="hora-label">{{ bloque }}</ion-label>
+              <div class="input-container">
+                <input type="number" 
+                       [(ngModel)]="registros[equipo.id][bloque]" 
+                       placeholder="--"
+                       [readonly]="perfil.rol === 'lector'"
+                       class="temp-input">
+                <span class="unit">°C</span>
+              </div>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card>
+
+    <div class="ion-padding-top" *ngIf="perfil.rol === 'admin' || perfil.rol === 'supervisor'">
+      <ion-button expand="block" color="dark" (click)="guardarTodo()" style="--border-radius: 12px;">
+        <ion-icon name="cloud-upload-outline" slot="start"></ion-icon>
+        GUARDAR REGISTROS DEL DÍA
+      </ion-button>
+    </div>
+  </ng-container>
+
+  <ng-template #loading>
+    <div class="ion-text-center ion-padding">
+      <ion-spinner name="crescent"></ion-spinner>
+    </div>
+  </ng-template>
+</ion-content>
+
+<app-footer-brbc></app-footer-brbc>

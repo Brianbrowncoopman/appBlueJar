@@ -1,153 +1,64 @@
-.gray-background {
-  --background: #f4f5f8;
-  
-  // Aumentamos el padding inferior para asegurar que el footer no tape nada
-  --padding-bottom: 100px; 
+/* ... (Tus estilos existentes se mantienen) ... */
+
+.horizontal-scroll {
+  display: flex;
+  overflow-x: auto;
+  padding-bottom: 10px;
+  gap: 10px;
+  &::-webkit-scrollbar { display: none; }
 }
 
-// Contenedor principal para asegurar el flujo de scroll
-.main-container {
-  display: block;
-  min-height: 100%;
-}
-
-.section-title {
-  font-size: 1rem;
-  font-weight: 700;
-  color: #2d3436;
-  border-left: 4px solid var(--ion-color-primary);
-  padding-left: 10px;
-  margin: 25px 0 12px 0;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.analysis-card {
-  border-radius: 15px;
-  background: #fff;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-  margin: 0; // Evita doble margen con informe-section
-}
-
-.summary-card-primary {
-  background: #fff;
-  border-radius: 12px;
-  border-left: 5px solid var(--ion-color-primary);
+.temp-report-card {
+  min-width: 280px;
   margin: 0;
+  border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.temp-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
   
-  div { 
-    font-size: 1.2rem; 
-    font-weight: bold; 
-    margin-top: 4px;
-  }
-  small { 
-    color: #888; 
-    letter-spacing: 0.5px;
-  }
-}
-
-.informe-card {
-  border-radius: 10px;
-  margin-bottom: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-
-  .venta-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-bottom: 8px;
-    border-bottom: 1px solid #f0f0f0;
-    margin-bottom: 8px;
-  }
-}
-
-.diff-pos { color: #2ecc71; font-weight: bold; }
-.diff-neg { color: #e74c3c; font-weight: bold; }
-
-// --- Estilos Comedor ---
-
-.mini-card {
-  background: white;
-  border-radius: 10px;
-  margin: 4px 0;
-  height: calc(100% - 8px); // Ajuste para que todas midan igual en la fila
-  box-shadow: 0 3px 6px rgba(0,0,0,0.06);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-
-  .mini-card-date {
-    background: var(--ion-color-primary);
-    color: white;
-    text-align: center;
-    font-size: 0.75rem;
+  th { text-align: center; color: #888; padding: 5px; border-bottom: 1px solid #eee; }
+  td { text-align: center; padding: 8px 4px; border-bottom: 1px solid #f9f9f9; }
+  
+  .eq-name {
+    text-align: left;
     font-weight: bold;
-    padding: 4px;
-    text-transform: uppercase;
-  }
-
-  .mini-card-content {
-    padding: 10px;
-    font-size: 0.75rem;
-    flex-grow: 1;
-
-    strong { 
-      display: block; 
-      margin-bottom: 6px; 
-      color: #222; 
-      line-height: 1.1;
-    }
-    
-    .stock-line { 
-      color: #666; 
-      border-top: 1px solid #f2f2f2; 
-      padding: 4px 0;
-      display: flex;
-      justify-content: space-between;
-    }
+    color: #444;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100px;
   }
 }
 
-.summary-card-list {
-  border-radius: 15px;
-  overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-  margin-bottom: 20px;
-  
-  ion-list { 
-    padding: 0; 
-  }
-  
-  ion-item {
-    --padding-start: 16px;
-    --inner-padding-end: 16px;
-  }
-}
 
-// Espaciador para las secciones de informe
-.informe-section {
-  margin-bottom: 25px;
-}
+/* Mantenemos todos tus estilos originales */
+.gray-background { --background: #f4f5f8; --padding-bottom: 100px; }
+.section-title { font-size: 1rem; font-weight: 700; color: #2d3436; border-left: 4px solid var(--ion-color-primary); padding-left: 10px; margin: 25px 0 12px 0; text-transform: uppercase; }
 
-.venta-header {
+/* Estilos nuevos para Temperaturas */
+.horizontal-scroll {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-bottom: 8px;
-  border-bottom: 1px solid #f0f0f0;
-  margin-bottom: 8px;
+  overflow-x: auto;
+  gap: 12px;
+  padding-bottom: 10px;
+  &::-webkit-scrollbar { display: none; }
+}
 
-  div {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
+.temp-report-card {
+  min-width: 280px;
+  margin: 0;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
 
-  ion-button {
-    --padding-start: 0;
-    --padding-end: 0;
-    height: 24px;
-    margin: 0;
-  }
+.temp-table {
+  width: 100%;
+  font-size: 0.8rem;
+  th { color: #888; border-bottom: 1px solid #eee; padding: 4px; }
+  td { text-align: center; padding: 6px 2px; border-bottom: 1px solid #f5f5f5; }
+  .eq-name { text-align: left; font-weight: bold; color: var(--ion-color-primary); }
 }

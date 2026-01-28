@@ -4,10 +4,10 @@ import { FooterBrbcComponent } from '../componets/footer-brbc/footer-brbc.compon
 import { 
   IonHeader, IonToolbar, IonTitle, IonContent, 
   IonGrid, IonRow, IonCol, IonCard, IonCardHeader, 
-  IonCardTitle, IonIcon, IonCardSubtitle 
+  IonCardTitle, IonIcon, IonCardSubtitle,IonLabel ,IonCardContent,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { thermometerOutline, cubeOutline, cashOutline, restaurantOutline, documentTextOutline, cartOutline } from 'ionicons/icons';
+import { thermometerOutline, cubeOutline, cashOutline, restaurantOutline, documentTextOutline, cartOutline, statsChartOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-home',
@@ -16,14 +16,14 @@ import { thermometerOutline, cubeOutline, cashOutline, restaurantOutline, docume
   standalone: true,
   imports: [
     IonHeader, IonToolbar, IonTitle, IonContent, 
-    IonGrid, IonRow, IonCol, IonCard, IonCardHeader, 
-    IonCardTitle, IonIcon, IonCardSubtitle, FooterBrbcComponent
+    IonGrid, IonRow, IonCol, IonCard, IonCardHeader, IonCardContent,
+    IonCardTitle, IonIcon, IonCardSubtitle, FooterBrbcComponent,IonLabel
   ],
 })
 export class HomePage {
   constructor(private router: Router) {
     // Registrar los iconos para Standalone
-    addIcons({restaurantOutline,cashOutline,documentTextOutline,cartOutline,thermometerOutline,cubeOutline});
+    addIcons({restaurantOutline,cashOutline,thermometerOutline,statsChartOutline,cartOutline,cubeOutline,documentTextOutline});
   }
 
   navegar(ruta: string) {

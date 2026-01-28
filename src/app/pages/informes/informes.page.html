@@ -1,4 +1,4 @@
-<ion-header class="ion-no-border">
+<!--<ion-header class="ion-no-border">
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/home" text="Volver"></ion-back-button>
@@ -123,5 +123,192 @@
 
     <div style="height: 80px;"></div>
   </div>
+</ion-content>
+<app-footer-brbc></app-footer-brbc>
+
+-->
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" text="Volver"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Informes</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="descargarExcel()">
+        <ion-icon slot="start" name="download-outline"></ion-icon>
+        Excel
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <ion-toolbar color="primary">
+    <ion-segment [(ngModel)]="segmentoActivo" mode="md" (ionChange)="aplicarFiltro()">
+      <ion-segment-button value="ventas">
+        <ion-label>VENTAS</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="comedor">
+        <ion-label>COMEDOR</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="temperaturas">
+        <ion-label>TEMPERATURAS</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="gray-background" scroll-y="true">
+  <ng-container *ngIf="(authService.userProfile$ | async) as perfil; else loading">
+    
+    <div class="ion-padding main-container" *ngIf="perfil.rol === 'admin' || perfil.rol === 'supervisor'; else noAccess">
+      
+      <ion-item lines="none" class="filter-item">
+        <ion-label>Periodo:</ion-label>
+        <ion-datetime-button datetime="dateFilter"></ion-datetime-button>
+        <ion-modal [keepContentsMounted]="true">
+          <ng-template>
+            <ion-datetime id="dateFilter" presentation="month-year" [(ngModel)]="fechaFiltro" (ionChange)="aplicarFiltro()"></ion-datetime>
+          </ng-template>
+        </ion-modal>
+      </ion-item>
+
+      <div *ngIf="segmentoActivo === 'ventas'">
+        <div class="informe-section">
+          <h3 class="section-title">Análisis de Tendencia</h3>
+          <ion-card class="analysis-card">
+            <ion-card-content>
+              <div style="height: 250px; width: 100%; position: relative;">
+                <canvas id="ventasChart"></canvas>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </div>
+
+        <div class="informe-section">
+          <h3 class="section-title">Resumen del Mes</h3>
+          <ion-card class="summary-card-primary">
+            <ion-grid>
+              <ion-row>
+                <ion-col size="6"><small>META TOTAL</small><div>${{ totalMetaMensual | number:'1.0-0' }}</div></ion-col>
+                <ion-col size="6"><small>REAL TOTAL</small><div [style.color]="totalRealMensual >= totalMetaMensual ? '#2ecc71' : '#e74c3c'">${{ totalRealMensual | number:'1.0-0' }}</div></ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card>
+        </div>
+
+        <div class="informe-section">
+          <h3 class="section-title">Detalle Diario</h3>
+          <ion-card class="informe-card" *ngFor="let v of ventasFiltradas">
+            <ion-card-content>
+              <div class="venta-header">
+                <div>
+                  <ion-badge color="dark">{{ v.fecha }}</ion-badge>
+                  <ion-button fill="clear" size="small" (click)="compartirWhatsApp(v.fecha)">
+                    <ion-icon name="logo-whatsapp" color="success" slot="icon-only"></ion-icon>
+                  </ion-button>
+                </div>
+                <strong>${{ v.real | number:'1.0-0' }}</strong>
+              </div>
+              <ion-grid>
+                <ion-row>
+                  <ion-col size="6"><small>META: ${{ v.meta | number:'1.0-0' }}</small></ion-col>
+                  <ion-col size="6" class="ion-text-right">
+                    <small [class]="v.diferencia >= 0 ? 'diff-pos' : 'diff-neg'">DIF: ${{ v.diferencia | number:'1.0-0' }}</small>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </ion-card-content>
+          </ion-card>
+        </div>
+      </div>
+
+      <div *ngIf="segmentoActivo === 'comedor'">
+        <div class="informe-section">
+          <h3 class="section-title">1. Movimiento Diario</h3>
+          <ion-grid>
+            <ion-row>
+              <ion-col size="6" *ngFor="let item of comedorFiltrado">
+                <ion-card class="mini-card">
+                  <div class="mini-card-date">{{ item.fecha.split('-')[0] }}</div>
+                  <div class="mini-card-content">
+                    <strong>{{ item.minuta?.plato }}</strong>
+                    <div *ngFor="let ex of $any(item.existencias) | keyvalue" class="stock-line">
+                      {{ asString(ex.key) }}: {{ ex.value }}
+                    </div>
+                  </div>
+                </ion-card>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </div>
+        <div class="informe-section">
+          <h3 class="section-title">2. Tendencia de Platos</h3>
+          <ion-card class="analysis-card">
+            <ion-card-content>
+              <div style="height: 200px; width: 100%; position: relative;">
+                <canvas id="comedorChart"></canvas>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </div>
+        <div class="informe-section">
+          <h3 class="section-title">3. Totales Acumulados</h3>
+          <ion-card class="summary-card-list">
+            <ion-list lines="full">
+              <ion-item *ngFor="let t of totalesExistencias">
+                <ion-label><h2>{{ t.nombre | uppercase }}</h2></ion-label>
+                <ion-badge slot="end" color="primary">{{ t.cantidad }}</ion-badge>
+              </ion-item>
+            </ion-list>
+          </ion-card>
+        </div>
+      </div>
+
+      <div *ngIf="segmentoActivo === 'temperaturas'">
+        <div class="informe-section" *ngFor="let area of ['cocina', 'bodega', 'comedor']">
+          <h3 class="section-title">Control: {{ area | uppercase }}</h3>
+          <div class="horizontal-scroll">
+            <ion-card class="temp-report-card" *ngFor="let dia of tempsFiltradas[area]">
+              <ion-card-header>
+                <ion-badge color="dark">{{ dia.fecha }}</ion-badge>
+              </ion-card-header>
+              <ion-card-content>
+                <table class="temp-table">
+                  <thead>
+                    <tr><th>Equipo</th><th>07:00</th><th>14:00</th><th>21:00</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let eq of $any(dia.equipos) | keyvalue">
+                      <td class="eq-name">{{ $any(eq.key).split('_').pop() }}</td>
+                      <td>{{ $any(eq.value)['07:00'] || '--' }}°</td>
+                      <td>{{ $any(eq.value)['14:00'] || '--' }}°</td>
+                      <td>{{ $any(eq.value)['21:00'] || '--' }}°</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </ion-card-content>
+            </ion-card>
+          </div>
+        </div>
+      </div>
+
+      <div style="height: 80px;"></div>
+    </div>
+
+    <ng-template #noAccess>
+      <div class="ion-text-center ion-padding" style="margin-top: 100px;">
+        <ion-icon name="lock-closed-outline" style="font-size: 80px; color: #e74c3c;"></ion-icon>
+        <h2 style="font-weight: 800;">Acceso Restringido</h2>
+        <p>Solo Administradores y Supervisores pueden ver los informes.</p>
+      </div>
+    </ng-template>
+
+  </ng-container>
+
+  <ng-template #loading>
+    <div class="ion-text-center ion-padding" style="margin-top: 50px;">
+      <ion-spinner name="crescent"></ion-spinner>
+      <p>Cargando perfil y datos...</p>
+    </div>
+  </ng-template>
 </ion-content>
 <app-footer-brbc></app-footer-brbc>

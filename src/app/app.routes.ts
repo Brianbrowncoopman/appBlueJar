@@ -18,6 +18,11 @@ export const routes: Routes = [
     path: 'control-temperatura',
     loadComponent: () => import('./pages/control-temperatura/control-temperatura.page').then( m => m.ControlTemperaturaPage)
   },
+  
+  {
+    path: 'temp-bodega',
+    loadComponent: () => import('./pages/temp-bodega/temp-bodega.page').then( m => m.TempBodegaPage)
+  },
   {
     path: 'control-productos',
     loadComponent: () => import('./pages/control-productos/control-productos.page').then( m => m.ControlProductosPage)
@@ -37,6 +42,18 @@ export const routes: Routes = [
   {
     path: 'pedido-bodega',
     loadComponent: () => import('./pages/pedidobodega/pedidobodega.page').then( m => m.PedidoPage)
+  },
+  {
+    path: 'temp-cocina',
+    loadComponent: () => import('./pages/temp-cocina/temp-cocina.page').then( m => m.TempCocinaPage)
+  },
+  {
+    path: 'temp-comedor',
+    loadComponent: () => import('./pages/temp-comedor/temp-comedor.page').then( m => m.TempComedorPage)
+  },
+  {
+    path: 'temp-bodega',
+    loadComponent: () => import('./pages/temp-bodega/temp-bodega.page').then( m => m.TempBodegaPage)
   }
   
 ];
