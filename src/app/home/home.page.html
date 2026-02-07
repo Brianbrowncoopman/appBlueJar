@@ -1,12 +1,12 @@
-<!--<ion-header [translucent]="true" class="ion-no-border">
-  <ion-toolbar>
-    <ion-title>
-      Restaurante CSB MONEDA
-    </ion-title>
-  </ion-toolbar>
+
+
+<ion-header class="ion-no-border">
+  <div class="brand-header">
+    <img src="assets/blue.png" alt="Blue Jar Restaurant" class="header-logo">
+  </div>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="ion-padding">
+<ion-content [fullscreen]="true" class="ion-padding bluejar-theme">
   
   <div class="welcome-section">
     <h1>Panel de Control</h1>
@@ -14,157 +14,75 @@
   </div>
 
   <ion-grid>
-    <ion-row>
-      <ion-col size="6">
-        <ion-card class="menu-card" (click)="navegar('comedor')">
-          <div class="card-icon-wrapper comedor-bg">
-            <ion-icon name="restaurant-outline"></ion-icon>
-          </div>
-          <ion-card-header>
-            <ion-card-title>Comedor</ion-card-title>
-          </ion-card-header>
-        </ion-card>
-      </ion-col>
+  <ion-row>
+    <ion-col size="6">
+      <ion-card class="menu-card" (click)="navegar('comedor')">
+        <div class="card-icon-wrapper bj-azul">
+          <ion-icon name="restaurant-outline"></ion-icon>
+        </div>
+        <ion-card-header>
+          <ion-card-title>Comedor</ion-card-title>
+        </ion-card-header>
+      </ion-card>
+    </ion-col>
 
-      <ion-col size="6">
-        <ion-card class="menu-card" (click)="navegar('venta-dia')">
-          <div class="card-icon-wrapper sales-bg">
-            <ion-icon name="cash-outline"></ion-icon>
-          </div>
-          <ion-card-header>
-            <ion-card-title>Venta del Día</ion-card-title>
-          </ion-card-header>
-        </ion-card>
-      </ion-col>
+    <ion-col size="6">
+      <ion-card class="menu-card" (click)="navegar('venta-dia')">
+        <div class="card-icon-wrapper bj-verde">
+          <ion-icon name="cash-outline"></ion-icon>
+        </div>
+        <ion-card-header>
+          <ion-card-title>Venta del Día</ion-card-title>
+        </ion-card-header>
+      </ion-card>
+    </ion-col>
 
-      <ion-col size="6">
-        <ion-card class="menu-card" (click)="navegar('informes')">
-          <div class="card-icon-wrapper reports-bg">
-            <ion-icon name="document-text-outline"></ion-icon>
-          </div>
-          <ion-card-header>
-            <ion-card-title>Informes</ion-card-title>
-          </ion-card-header>
-        </ion-card>
-      </ion-col>
+    <ion-col size="6">
+      <ion-card class="menu-card" (click)="navegar('control-temperatura')">
+        <div class="card-icon-wrapper bj-rojo">
+          <ion-icon name="thermometer-outline"></ion-icon>
+        </div>
+        <ion-card-header>
+          <ion-card-title>Temperaturas</ion-card-title>
+        </ion-card-header>
+      </ion-card>
+    </ion-col>
 
-      <ion-col size="6">
-        <ion-card class="menu-card" (click)="navegar('pedido-bodega')">
-          <div class="card-icon-wrapper pedidos-bg">
-            <ion-icon name="cart-outline"></ion-icon>
-          </div>
-          <ion-card-header>
-            <ion-card-title>Pedidos</ion-card-title>
-          </ion-card-header>
-        </ion-card>
-      </ion-col>
+    <ion-col size="6">
+      <ion-card class="menu-card" (click)="navegar('informes')">
+        <div class="card-icon-wrapper bj-gris">
+          <ion-icon name="stats-chart-outline"></ion-icon>
+        </div>
+        <ion-card-header>
+          <ion-card-title>Informes</ion-card-title>
+        </ion-card-header>
+      </ion-card>
+    </ion-col>
 
-    </ion-row>
-  </ion-grid>
+    <ion-col size="6">
+      <ion-card class="menu-card" (click)="navegar('pedido-bodega')">
+        <div class="card-icon-wrapper bj-morado">
+          <ion-icon name="cart-outline"></ion-icon>
+        </div>
+        <ion-card-header>
+          <ion-card-title>Pedidos</ion-card-title>
+        </ion-card-header>
+      </ion-card>
+    </ion-col>
 
-</ion-content>
+    <ion-col size="6">
+      <ion-card class="menu-card" (click)="navegar('control-productos')">
+        <div class="card-icon-wrapper bj-celeste">
+          <ion-icon name="cube-outline"></ion-icon>
+        </div>
+        <ion-card-header>
+          <ion-card-title>Productos</ion-card-title>
+        </ion-card-header>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+</ion-grid>
 
-<app-footer-brbc></app-footer-brbc>
--->
-
-
-<ion-header [translucent]="true" class="ion-no-border">
-  <ion-toolbar>
-    <ion-title>
-      Restaurante CSB MONEDA
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true" class="ion-padding">
-  
-  <div class="welcome-section">
-    <h1>Panel de Control</h1>
-    <p>Gestión del establecimiento</p>
-  </div>
-
-  <ion-grid>
-    <ion-row>
-      <ion-col size="6">
-        <ion-card class="menu-card" (click)="navegar('comedor')">
-          <div class="card-icon-wrapper comedor-bg">
-            <ion-icon name="restaurant-outline"></ion-icon>
-          </div>
-          <ion-card-header>
-            <ion-card-title>Comedor</ion-card-title>
-          </ion-card-header>
-        </ion-card>
-      </ion-col>
-
-      <ion-col size="6">
-        <ion-card class="menu-card" (click)="navegar('venta-dia')">
-          <div class="card-icon-wrapper sales-bg">
-            <ion-icon name="cash-outline"></ion-icon>
-          </div>
-          <ion-card-header>
-            <ion-card-title>Venta del Día</ion-card-title>
-          </ion-card-header>
-        </ion-card>
-      </ion-col>
-
-      <ion-col size="6">
-        <ion-card class="menu-card" (click)="navegar('control-temperatura')">
-          <div class="card-icon-wrapper temp-bg">
-            <ion-icon name="thermometer-outline"></ion-icon>
-          </div>
-          <ion-card-header>
-            <ion-card-title>Temperaturas</ion-card-title>
-          </ion-card-header>
-        </ion-card>
-      </ion-col>
-
-      <!--<ion-col size="6">
-        <ion-card class="menu-card" (click)="navegar('informes')">
-          <div class="card-icon-wrapper reports-bg">
-            <ion-icon name="document-text-outline"></ion-icon>
-          </div>
-          <ion-card-header>
-            <ion-card-title>Informes</ion-card-title>
-          </ion-card-header>
-        </ion-card>
-      </ion-col>-->
-
-      <ion-col size="6">
-        <ion-card class="menu-card" (click)="navegar('informes')">
-          <ion-card-content>
-            <div class="icon-container color-informes">
-              <ion-icon name="stats-chart-outline"></ion-icon> </div>
-            <ion-label>Informes</ion-label>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-
-
-
-      <ion-col size="6">
-        <ion-card class="menu-card" (click)="navegar('pedido-bodega')">
-          <div class="card-icon-wrapper pedidos-bg">
-            <ion-icon name="cart-outline"></ion-icon>
-          </div>
-          <ion-card-header>
-            <ion-card-title>Pedidos</ion-card-title>
-          </ion-card-header>
-        </ion-card>
-      </ion-col>
-
-      <ion-col size="6">
-        <ion-card class="menu-card" (click)="navegar('control-productos')">
-          <div class="card-icon-wrapper products-bg">
-            <ion-icon name="cube-outline"></ion-icon>
-          </div>
-          <ion-card-header>
-            <ion-card-title>Productos</ion-card-title>
-          </ion-card-header>
-        </ion-card>
-      </ion-col>
-
-    </ion-row>
-  </ion-grid>
 
 </ion-content>
 

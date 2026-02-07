@@ -1,70 +1,68 @@
-ion-title {
-  font-weight: 700;
-  font-size: 1.4rem;
-  letter-spacing: -0.5px;
+ion-header {
+  background-color: #f4f1ea; // Fondo igual al de la página para que no haya saltos
 }
 
-.welcome-section {
-  padding: 10px 10px 20px 10px;
-  h1 {
-    font-weight: 800;
-    margin: 0;
-    font-size: 1.8rem;
-  }
-  p {
-    color: var(--ion-color-medium);
-    margin: 5px 0 0 0;
+
+
+
+.logo-wrapper-full {
+  width: 100%;
+  height: 120px; // Altura ideal para que el logo respire
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background-color: #f4f1ea;
+  
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; // Esto hace que la textura llene el header sin estirar el logo
+    display: block;
   }
 }
 
+// AJUSTE DE TARJETAS (Para que se vean como la imagen que te envié)
 .menu-card {
-  margin: 8px 0;
-  border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  margin: 20px 0;
+  background: transparent;
+  box-shadow: none;
+  border: none;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 15px 0;
-  transition: transform 0.2s;
-
-  &:active {
-    transform: scale(0.95);
-  }
 
   ion-card-title {
-    font-size: 0.9rem;
-    font-weight: 600;
-    text-align: center;
+    margin-top: 12px;
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: #1b365d;
+    letter-spacing: 1px;
+    text-transform: uppercase;
   }
-}
-
-.full-width {
-  flex-direction: row;
-  padding: 10px 20px;
-  justify-content: start;
 }
 
 .card-icon-wrapper {
-  width: 50px;
-  height: 50px;
-  border-radius: 12px;
+  width: 90px;
+  height: 90px;
+  border-radius: 35px; // Estilo muy redondeado
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 10px;
+  box-shadow: 0 12px 24px rgba(27, 54, 93, 0.18);
   
   ion-icon {
-    font-size: 24px;
+    font-size: 40px;
     color: white;
   }
 }
 
-.temp-bg { background: #ff4d4d; }
-.products-bg { background: #3880ff; }
-.sales-bg { background: #2dd36f; margin-bottom: 0; margin-right: 15px; }
-.comedor-bg { background-color: #3880ff; color: white;}
 
-.pedidos-bg {
-  background-color: #3880ff; // Azul vibrante para Pedidos
-  color: white;
-}
+
+// Colores un poco más vivos para que resalten sobre el crema
+.bj-azul    { background: #1b365d; }
+.bj-verde   { background: #4a7c59; }
+.bj-rojo    { background: #c05353; }
+.bj-gris    { background: #5a5a66; }
+.bj-morado  { background: #6a5acd; }
+.bj-celeste { background: #3880ff; }
