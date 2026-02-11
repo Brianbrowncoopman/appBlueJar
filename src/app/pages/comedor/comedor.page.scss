@@ -1,143 +1,124 @@
-.gray-background {
-  --background: #f8f9fa;
+$bj-azul: #1b365d;
+$bj-crema: #f4f1ea;
+$bj-verde: #4a7c59;
+
+.bluejar-theme {
+  --background: #{$bj-crema};
 }
 
 .section-title {
-  font-weight: 700;
-  margin-bottom: 5px;
-  color: #212529;
+  font-weight: 800;
+  margin: 10px 0 5px 0;
+  color: $bj-azul;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.welcome-section p {
+  margin: 0;
+  color: #636e72;
+  font-size: 0.85rem;
 }
 
 .input-card {
   background: white;
-  border-radius: 15px;
-  padding: 15px;
-  margin-bottom: 15px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  border-radius: 15px; // Estilo redondeado del Home
+  padding: 10px;
+  margin: 4px;
+  box-shadow: 0 4px 10px rgba(27, 54, 93, 0.08); // Sombra Blue Jar
+  border: 1px solid rgba(27, 54, 93, 0.05);
 
   .input-header {
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin-bottom: 5px;
-    
+    gap: 6px;
+    margin-bottom: 4px;
     ion-label {
-      font-weight: 600;
-      color: #495057;
-      font-size: 0.9rem;
+      font-weight: 700;
+      color: #636e72;
+      font-size: 0.8rem;
     }
-
-    ion-icon {
-      font-size: 1.2rem;
-    }
+    ion-icon { font-size: 1.1rem; }
   }
 }
 
 .custom-input-item {
   --background: transparent;
   --padding-start: 0;
-  --inner-padding-end: 0;
-  
+  --min-height: 30px;
   ion-input {
-    font-size: 1.1rem;
-    color: #212529;
-    --placeholder-color: #adb5bd;
-    --placeholder-font-weight: 400;
+    color: #2d3436;
+    font-weight: 600;
+    font-size: 0.9rem;
   }
 }
 
-// Colores para los iconos
+// Iconos Colores
 .icon-entrada { color: #2ecc71; }
 .icon-plato { color: #e67e22; }
 .icon-postre { color: #e84393; }
 .icon-bebida { color: #0984e3; }
-
-.plazas-container {
-  margin-top: 10px;
-}
+.icon-pasta { color: #fdcb6e; }
+.icon-chef { color: #d35400; }
+.icon-sandwich { color: #e67e22; }
+.icon-pescado { color: #74b9ff; }
+.icon-ceviche { color: #1abc9c; }
+.icon-sopa { color: #a29bfe; }
 
 .plaza-card {
-  margin: 5px; // Espaciado entre las mini-tarjetas de plazas
-  padding: 10px !important;
   text-align: center;
-
-  .input-header {
-    justify-content: center;
-    ion-label {
-      color: #3880ff; // Color azul para resaltar que es una plaza
-      font-size: 0.8rem;
-    }
-  }
-
-  ion-input {
-    text-align: center;
-    font-size: 0.9rem;
-    font-weight: 500;
-  }
-}
-
-// Para que los inputs de números no tengan flechas (opcional)
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+  .input-header { justify-content: center; ion-label { color: $bj-azul; font-size: 0.7rem; } }
+  ion-input { text-align: center; font-size: 0.85rem; height: 28px; }
 }
 
 .stock-card {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 4px;
-  padding: 8px 12px !important;
-  background: white;
+  position: relative;
+  
+  .plato-nombre { font-size: 0.75rem; font-weight: 700; color: $bj-azul; flex: 1; text-transform: uppercase; }
 
-  .plato-nombre {
-    font-size: 0.85rem;
-    font-weight: 500;
-    color: #495057;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  &.stock-disponible { border-bottom: 2px solid #3880ff; }
+  &.stock-agotado {
+    background-color: #fff5f5 !important;
+    .plato-nombre { color: #a0a0a0; text-decoration: line-through; }
+    ion-input { color: #eb445a !important; }
   }
 }
 
 .stock-input-item {
   --background: transparent;
-  width: 65px; // Espacio pequeño para la cantidad
-  --padding-start: 0;
-  --inner-padding-end: 0;
-  
-  ion-input {
-    text-align: right;
-    font-weight: 700;
-    color: #3880ff;
-    --padding-end: 5px;
-    font-size: 1.1rem;
-  }
+  width: 45px;
+  ion-input { text-align: right; font-weight: 800; color: #3880ff; font-size: 1rem; }
 }
 
-.stock-card {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 4px;
-  padding: 8px 10px !important; // Ajustamos un poco el padding interno
-  background: white;
+.divider-stock {
+  margin-top: 15px;
+  ion-label { font-weight: 800 !important; font-size: 0.8rem !important; letter-spacing: 1px; }
+}
 
-  .plato-nombre {
-    font-size: 0.85rem;
-    font-weight: 500;
-    color: #495057;
-    flex: 1; // Esto permite que el nombre ocupe el espacio sobrante
-    margin-right: 5px;
-  }
+.lbl-entradas { color: #1abc9c; }
+.lbl-sandwiches { color: #d35400; }
+.lbl-ensaladas { color: #2ecc71; }
+.lbl-fondos { color: #e67e22; }
+.lbl-postres { color: #9b59b6; }
+
+.cross-line {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: rgba(235, 68, 90, 0.3);
+  transform: rotate(-10deg);
+  pointer-events: none;
 }
 
 .whatsapp-button {
-  --background: #25D366;
-  --background-activated: #128C7E; // Un tono más oscuro al presionar
-  --background-focused: #128C7E;
+  --background: #{$bj-verde};
   --color: white;
-  font-weight: 700;
-  margin-bottom: 30px; // Espacio extra al final para que no choque con el borde
+  font-weight: 800;
+  height: 50px;
 }
