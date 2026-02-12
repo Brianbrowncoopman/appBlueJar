@@ -1,64 +1,53 @@
-/* ... (Tus estilos existentes se mantienen) ... */
+$bj-azul: #1b365d;
+$bj-crema: #f4f1ea;
 
-.horizontal-scroll {
-  display: flex;
-  overflow-x: auto;
-  padding-bottom: 10px;
-  gap: 10px;
-  &::-webkit-scrollbar { display: none; }
+.bj-content {
+  --background: #{$bj-crema};
+}
+
+.section-title {
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: $bj-azul;
+  border-left: 5px solid $bj-azul;
+  padding-left: 12px;
+  margin: 25px 0 15px 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.summary-card-primary {
+  background: white;
+  border-radius: 16px;
+  border: 1px solid rgba($bj-azul, 0.1);
+  box-shadow: 0 4px 15px rgba($bj-azul, 0.05);
+  text-align: center;
+  
+  small { font-weight: 700; color: #adb5bd; letter-spacing: 1px; }
+  .total-monto { font-size: 1.4rem; font-weight: 800; color: $bj-azul; margin-top: 5px; }
 }
 
 .temp-report-card {
-  min-width: 280px;
-  margin: 0;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-}
-
-.temp-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.8rem;
+  min-width: 300px;
+  border-radius: 16px;
+  border: none;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
   
-  th { text-align: center; color: #888; padding: 5px; border-bottom: 1px solid #eee; }
-  td { text-align: center; padding: 8px 4px; border-bottom: 1px solid #f9f9f9; }
-  
-  .eq-name {
-    text-align: left;
-    font-weight: bold;
-    color: #444;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 100px;
+  .temp-table {
+    th { color: #adb5bd; font-weight: 700; font-size: 0.7rem; }
+    .eq-name { color: $bj-azul; font-size: 0.75rem; }
+    .high-temp { color: #e74c3c; font-weight: 800; } // Resalta temperaturas altas
   }
 }
 
-
-/* Mantenemos todos tus estilos originales */
-.gray-background { --background: #f4f5f8; --padding-bottom: 100px; }
-.section-title { font-size: 1rem; font-weight: 700; color: #2d3436; border-left: 4px solid var(--ion-color-primary); padding-left: 10px; margin: 25px 0 12px 0; text-transform: uppercase; }
-
-/* Estilos nuevos para Temperaturas */
-.horizontal-scroll {
-  display: flex;
-  overflow-x: auto;
-  gap: 12px;
-  padding-bottom: 10px;
-  &::-webkit-scrollbar { display: none; }
-}
-
-.temp-report-card {
-  min-width: 280px;
-  margin: 0;
+.informe-card {
   border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-}
-
-.temp-table {
-  width: 100%;
-  font-size: 0.8rem;
-  th { color: #888; border-bottom: 1px solid #eee; padding: 4px; }
-  td { text-align: center; padding: 6px 2px; border-bottom: 1px solid #f5f5f5; }
-  .eq-name { text-align: left; font-weight: bold; color: var(--ion-color-primary); }
+  margin-bottom: 10px;
+  .venta-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    .monto-diario { font-weight: 800; color: $bj-azul; font-size: 1.1rem; }
+  }
 }

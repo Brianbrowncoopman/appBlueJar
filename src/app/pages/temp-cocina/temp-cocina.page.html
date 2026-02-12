@@ -1,4 +1,4 @@
-<ion-header class="ion-no-border">
+<!--<ion-header class="ion-no-border">
   <ion-toolbar color="light" style="--border-style: none;">
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/control-temperatura" text="Volver"></ion-back-button>
@@ -63,6 +63,81 @@
   <ng-template #loading>
     <div class="ion-text-center ion-padding">
       <ion-spinner name="crescent"></ion-spinner>
+    </div>
+  </ng-template>
+</ion-content>
+
+<app-footer-brbc></app-footer-brbc> -->
+
+
+
+
+
+<ion-header class="ion-no-border">
+  <ion-toolbar style="--background: #f4f1ea; --border-style: none;">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/control-temperatura" style="color: #1b365d;" text="Volver"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title style="font-weight: 800; color: #1b365d; text-transform: uppercase; letter-spacing: 1px;">Control Frío</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-datetime-button datetime="datetime-cocina" class="ion-margin-end bj-datetime-btn"></ion-datetime-button>
+      <ion-modal [keepContentsMounted]="true">
+        <ng-template>
+          <ion-datetime 
+            id="datetime-cocina" 
+            presentation="date" 
+            (ionChange)="cambiarFecha($event)">
+          </ion-datetime>
+        </ng-template>
+      </ion-modal>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding bj-content">
+  <div class="header-section">
+    <h1 style="color: #1b365d; font-weight: 800;">Equipos de Frío</h1>
+    <p style="color: #636e72;">Registro diario: <strong>{{ fechaActual }}</strong></p>
+  </div>
+
+  <ng-container *ngIf="(authService.userProfile$ | async) as perfil; else loading">
+    <ion-card *ngFor="let equipo of equipos" class="equipo-card">
+      <ion-card-header>
+        <ion-card-title class="bj-card-title">{{ equipo.nombre | uppercase }}</ion-card-title>
+      </ion-card-header>
+
+      <ion-grid>
+        <ion-row>
+          <ion-col size="4" *ngFor="let bloque of ['07:00', '14:00', '21:00']">
+            <div class="temp-input-group">
+              <ion-label class="hora-label">{{ bloque }}</ion-label>
+              <div class="input-container">
+                <input type="number" 
+                       [(ngModel)]="registros[equipo.id][bloque]" 
+                       placeholder="--"
+                       [readonly]="perfil.rol === 'lector'"
+                       class="temp-input">
+                <span class="unit">°C</span>
+              </div>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card>
+
+    <div class="ion-padding-top" *ngIf="['admin', 'supervisor'].includes(perfil.rol)">
+      <ion-button expand="block" class="bj-save-button" (click)="guardarTodo()">
+        <ion-icon name="save-outline" slot="start"></ion-icon>
+        GUARDAR REGISTROS EQUIPOS
+      </ion-button>
+    </div>
+  </ng-container>
+
+  <ng-template #loading>
+    <div class="ion-text-center ion-padding">
+      <ion-spinner name="crescent" style="color: #1b365d;"></ion-spinner>
     </div>
   </ng-template>
 </ion-content>

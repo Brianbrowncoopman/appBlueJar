@@ -46,12 +46,26 @@ $bj-verde: #4a7c59;
 .custom-input-item {
   --background: transparent;
   --padding-start: 0;
-  --min-height: 30px;
-  ion-input {
+  --min-height: 45px; // Aumentamos un poco la altura mínima para los 2 renglones
+
+  .custom-textarea {
+    --padding-top: 5px;
+    --padding-bottom: 5px;
     color: #2d3436;
     font-weight: 600;
-    font-size: 0.9rem;
+    font-size: 0.85rem; // Un pelín más pequeño para que quepa mejor el texto largo
+    margin-top: 0;
+    
+    // Esto asegura que el texto se ajuste y no cree scroll horizontal
+    min-height: 40px;
   }
+}
+
+.small-card {
+  min-height: 95px; // Asegura que todas las cards tengan la misma altura aunque el texto sea corto
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 // Iconos Colores

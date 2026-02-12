@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "restaurante-bd70c"
-  }
+    "default": "bluejarddb-b",
+    "bluejarbd": "bluejarddb-b"
+  },
+  "targets": {},
+  "etags": {}
 }
