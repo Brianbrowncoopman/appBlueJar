@@ -46,26 +46,32 @@ $bj-verde: #4a7c59;
 .custom-input-item {
   --background: transparent;
   --padding-start: 0;
-  --min-height: 45px; // Aumentamos un poco la altura mínima para los 2 renglones
+  --inner-padding-end: 0;
+  --min-height: 45px;
 
   .custom-textarea {
-    --padding-top: 5px;
-    --padding-bottom: 5px;
-    color: #2d3436;
-    font-weight: 600;
-    font-size: 0.85rem; // Un pelín más pequeño para que quepa mejor el texto largo
+    --padding-top: 0px;
+    --padding-bottom: 0px;
     margin-top: 0;
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: #2d3436;
     
-    // Esto asegura que el texto se ajuste y no cree scroll horizontal
-    min-height: 40px;
+    // Forzamos que el contenedor interno del textarea no crezca infinito
+    min-height: 40px !important;
+    max-height: 55px !important; // Altura justa para 2 o 3 líneas máximo
+    
+    // Quitamos la línea molesta del foco en algunos navegadores
+    --highlight-color-focused: transparent;
   }
 }
 
 .small-card {
-  min-height: 95px; // Asegura que todas las cards tengan la misma altura aunque el texto sea corto
+  min-height: 100px; // Aumentamos un poco para dar aire al texto de 2 líneas
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  overflow: hidden; // Evita que el texto se escape de la tarjeta
 }
 
 // Iconos Colores

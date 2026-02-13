@@ -178,7 +178,7 @@ import {
   IonBackButton, IonDatetime, IonDatetimeButton, IonModal,
   IonItem, IonInput, IonLabel, IonIcon, IonText,
   IonGrid, IonRow, IonCol, IonButton,
-  IonItemGroup, IonItemDivider 
+  IonItemGroup, IonItemDivider, IonTextarea
 } from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
 import { addIcons } from 'ionicons';
@@ -200,7 +200,7 @@ import { Subscription } from 'rxjs'; // Añade este import
     IonHeader, IonToolbar, IonTitle, IonContent, IonButtons, 
     IonBackButton, IonDatetime, IonDatetimeButton, IonModal,
     IonItem, IonInput, IonLabel, IonIcon, IonText,
-    IonGrid, IonRow, IonCol,
+    IonGrid, IonRow, IonCol, IonTextarea,
     IonItemGroup, IonItemDivider, IonButton, FooterBrbcComponent
   ]
 })

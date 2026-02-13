@@ -4,6 +4,7 @@ import { Database, ref, objectVal } from '@angular/fire/database';
 import { Observable, of, switchMap } from 'rxjs';
 import { Router } from '@angular/router'; // <--- Importante
 
+
 @Injectable({
   providedIn: 'root'
 })

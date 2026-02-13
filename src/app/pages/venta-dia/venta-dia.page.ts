@@ -257,6 +257,8 @@ export class VentaDiaPage implements OnInit {
         this.router.navigate(['/home']); // Lo devuelve al inicio
       }
     });
+
+    this.escucharCambios();
   }
 
   cambiarFecha(ev: any) {
@@ -271,8 +273,9 @@ export class VentaDiaPage implements OnInit {
     this.escucharCambios();
   }
 
-  escucharCambios() {
+  /*escucharCambios() {
     const fechaID = this.fechaActual.replace(/\//g, '-');
+
     const historicoRef = ref(this.database, 'historico_ventas/' + fechaID);
     onValue(historicoRef, (snapshot) => {
       this.diaSalvado = snapshot.exists();
@@ -290,6 +293,31 @@ export class VentaDiaPage implements OnInit {
         this.real = { am: 0, almuerzo: 0, tarde: 0 };
         this.actualizarDisplays();
       }
+    });
+  }*/
+
+  escucharCambios() {
+    const fechaID = this.fechaActual.replace(/\//g, '-');
+    
+    // Referencia al histórico para el botón de "Día Salvado"
+    const historicoRef = ref(this.database, 'historico_ventas/' + fechaID);
+    onValue(historicoRef, (snapshot) => {
+      this.diaSalvado = snapshot.exists();
+    });
+
+    // Referencia a las ventas del día
+    const dbRef = ref(this.database, 'ventas/' + fechaID);
+    onValue(dbRef, (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        // Usamos el operador spread (...) para asegurar que Angular detecte el cambio de datos
+        this.metas = { am: 0, almuerzo: 0, tarde: 0, ...data.metas };
+        this.real = { am: 0, almuerzo: 0, tarde: 0, ...data.real };
+      } else {
+        this.metas = { am: 0, almuerzo: 0, tarde: 0 };
+        this.real = { am: 0, almuerzo: 0, tarde: 0 };
+      }
+      this.actualizarDisplays();
     });
   }
 
