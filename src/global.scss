@@ -34,7 +34,32 @@
 
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
-@import '@ionic/angular/css/palettes/dark.system.css';
+/*@import '@ionic/angular/css/palettes/dark.system.css';*/
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Mantenemos el fondo claro de BlueJar */
+    --ion-background-color: #f4f1ea !important;
+    --ion-text-color: #1b365d !important;
+
+    /* Forzamos que los items y tarjetas sigan siendo blancos */
+    --ion-item-background: #ffffff !important;
+    --ion-card-background: #ffffff !important;
+  }
+}
+
+/* Estilos globales para inputs en iOS */
+ion-input, ion-textarea, ion-item {
+  --color: #1b365d !important;
+  --placeholder-color: #95a5a6 !important;
+  --placeholder-opacity: 0.8;
+  color: #1b365d !important;
+}
+
+ion-content {
+  --safe-area-inset-bottom: var(--ion-safe-area-bottom);
+  --background: #f4f1ea; /* Fondo crema característico */
+}
 
 
 

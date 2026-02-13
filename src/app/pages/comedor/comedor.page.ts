@@ -187,6 +187,8 @@ import {
   wineOutline, arrowBackOutline, logoWhatsapp, fastFoodOutline, 
   fishOutline, waterOutline, flaskOutline, pizzaOutline, starOutline 
 } from 'ionicons/icons';
+import { AuthService } from 'src/app/services/auth';
+import { Subscription } from 'rxjs'; // Añade este import
 
 @Component({
   selector: 'app-comedor',
@@ -207,6 +209,11 @@ export class ComedorPage implements OnInit {
   private database: Database = inject(Database);
   private injector = inject(Injector);
   private router = inject(Router);
+  public authService = inject(AuthService); //servicio de autenticación para logout
+
+
+  rolUsuario: string = '';
+  private userSub!: Subscription;
 
   fechaActual: string = new Date().toLocaleDateString('es-CL', {
     day: '2-digit', month: '2-digit', year: 'numeric'
@@ -226,7 +233,8 @@ export class ComedorPage implements OnInit {
     sopa: '',
     jugo: '',
     mocktail: '',
-    cocktail: ''
+    cocktail: '',
+    especialtarde: ''
   };
 
   plazas: any = {
@@ -253,7 +261,17 @@ export class ComedorPage implements OnInit {
   ngOnInit() {
     runInInjectionContext(this.injector, () => {
       this.cargarDatos();
+      // Suscribirse al rol para bloquear la UI
+      this.userSub = this.authService.userProfile$.subscribe(perfil => {
+        if (perfil) {
+          this.rolUsuario = perfil.rol;
+        }
+      });
     });
+  }
+
+  ngOnDestroy() {
+    if (this.userSub) this.userSub.unsubscribe();
   }
 
   cambiarFecha(ev: any) {
@@ -340,7 +358,7 @@ export class ComedorPage implements OnInit {
     this.minuta = {
       entrada: '', fondo: '', postre: '', pasta: '', especialChef: '',
       sandwichChef: '', pescado: '', croquetas: '', ceviche: '',
-      sopa: '', jugo: '', mocktail: '', cocktail: ''
+      sopa: '', jugo: '', mocktail: '', cocktail: '', especialtarde: ''
     };
     this.plazas = {
       'Salon': { g1: '', g2: '' },
@@ -394,6 +412,7 @@ export class ComedorPage implements OnInit {
     if(this.minuta.jugo) texto += `🥤 Jugo: ${this.minuta.jugo}\n`;
     if(this.minuta.mocktail) texto += `🍹 Mocktail: ${this.minuta.mocktail}\n`;
     if(this.minuta.cocktail) texto += `🍸 Cocktail: ${this.minuta.cocktail}\n`;
+    if(this.minuta.especialtarde) texto += `🌙 Especial Tarde: ${this.minuta.especialtarde}\n`;
     
     texto += `\n*--- RESPONSABLES PLAZAS ---*\n`;
     const nombresPlazas = ['Salon', 'Bosque', 'Terraza'];

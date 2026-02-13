@@ -208,6 +208,7 @@ import {
   saveOutline, cloudUploadOutline, lockClosedOutline, checkmarkDoneCircle 
 } from 'ionicons/icons'; 
 import { take } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-venta-dia',
@@ -226,6 +227,8 @@ export class VentaDiaPage implements OnInit {
   public authService = inject(AuthService);
   private database: Database = inject(Database);
   private injector = inject(Injector);
+  private router = inject(Router);
+  
   
   fechaActual: string = new Date().toLocaleDateString('es-CL', {
     day: '2-digit', month: '2-digit', year: 'numeric'
@@ -248,8 +251,11 @@ export class VentaDiaPage implements OnInit {
   }
 
   ngOnInit() {
-    runInInjectionContext(this.injector, () => {  
-      this.escucharCambios();
+    this.authService.userProfile$.subscribe(perfil => {
+      if (perfil && perfil.rol === 'garzon' || perfil.rol === 'cocina') {
+        alert("⛔ Acceso no autorizado para tu perfil.");
+        this.router.navigate(['/home']); // Lo devuelve al inicio
+      }
     });
   }
 

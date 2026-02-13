@@ -64,7 +64,7 @@ export class PedidoPage {
     }
   }
 
-  async guardarPedido() {
+  /*async guardarPedido() {
     if (!this.area || this.items.some(i => !i.producto || i.cantidad === null || i.cantidad <= 0)) {
       alert("Por favor, selecciona el área y completa todos los productos.");
       return;
@@ -86,6 +86,55 @@ export class PedidoPage {
     } catch (error) {
       console.error("Error Firebase:", error);
       alert("❌ Error al guardar en la base de datos.");
+    }
+  }*/
+  async guardarPedido() {
+    // 1. Validación exhaustiva
+    if (!this.area) {
+      alert("Por favor, selecciona un área solicitante.");
+      return;
+    }
+
+    const productosValidos = this.items.filter(i => i.producto && i.producto.trim() !== '' && i.cantidad > 0);
+    
+    if (productosValidos.length === 0) {
+      alert("Debes ingresar al menos un producto con cantidad válida.");
+      return;
+    }
+
+    // 2. Preparar datos
+    // Formato de fecha para la carpeta: DD-MM-YYYY
+    const hoy = new Date();
+    const dia = String(hoy.getDate()).padStart(2, '0');
+    const mes = String(hoy.getMonth() + 1).padStart(2, '0');
+    const anio = hoy.getFullYear();
+    const fechaCarpeta = `${dia}-${mes}-${anio}`;
+    
+    const horaActual = hoy.toLocaleTimeString('es-CL', { hour: '2-digit', minute: '2-digit' });
+
+    // 3. Referencia a Firebase
+    // Estructura: pedidos / 12-02-2026 / cocina / [ID_UNICO]
+    const ruta = `pedidos/${fechaCarpeta}/${this.area.toLowerCase()}`;
+    const dbRef = ref(this.database, ruta);
+    const nuevoPedidoRef = push(dbRef);
+
+    try {
+      console.log("Intentando guardar en:", ruta);
+      
+      await set(nuevoPedidoRef, {
+        items: productosValidos,
+        hora: horaActual,
+        timestamp: Date.now(),
+        estado: 'pendiente' // Agregamos un estado por defecto
+      });
+      
+      console.log("✅ Guardado exitoso");
+      this.guardado = true;
+      alert("✅ Pedido registrado en la base de datos.");
+      
+    } catch (error: any) {
+      console.error("❌ Error Firebase:", error);
+      alert("Error al guardar: " + error.message);
     }
   }
 

@@ -29,7 +29,7 @@
   
   <div class="welcome-section">
     <h2 class="section-title">Minuta del Día</h2>
-    <p>Resumen de platos para hoy</p>
+    <p>Resumen de platos para hoy ({{rolUsuario === 'garzon' ? 'Modo Lectura' : 'Edición'}})</p>
   </div>
 
   <div class="menu-container">
@@ -42,7 +42,7 @@
               <ion-label>Entrada</ion-label>
             </div>
             <ion-item lines="none" class="custom-input-item">
-              <ion-input type="text" placeholder="..." [(ngModel)]="minuta.entrada" (ionBlur)="guardarFirebase()" ></ion-input>
+              <ion-input type="text" placeholder="..." [(ngModel)]="minuta.entrada" (ionBlur)="guardarFirebase()" [disabled]="rolUsuario === 'garzon'|| rolUsuario === 'venta'"></ion-input>
             </ion-item>
           </div>
         </ion-col>
@@ -53,7 +53,7 @@
               <ion-label>Fondo</ion-label>
             </div>
             <ion-item lines="none" class="custom-input-item">
-              <ion-input type="text" placeholder="..." [(ngModel)]="minuta.fondo" (ionBlur)="guardarFirebase()"></ion-input>
+              <ion-input type="text" placeholder="..." [(ngModel)]="minuta.fondo" (ionBlur)="guardarFirebase()" [disabled]="rolUsuario === 'garzon'|| rolUsuario === 'venta'"></ion-input>
             </ion-item>
           </div>
         </ion-col>
@@ -65,18 +65,18 @@
               <ion-label>Pasta</ion-label>
             </div>
             <ion-item lines="none" class="custom-input-item">
-              <ion-input type="text" placeholder="..." [(ngModel)]="minuta.pasta" (ionBlur)="guardarFirebase()"></ion-input>
+              <ion-input type="text" placeholder="..." [(ngModel)]="minuta.pasta" (ionBlur)="guardarFirebase()" [disabled]="rolUsuario === 'garzon'|| rolUsuario === 'venta'"></ion-input>
             </ion-item>
           </div>
         </ion-col>
         <ion-col size="6">
           <div class="input-card small-card">
             <div class="input-header">
-              <ion-icon name="fish-outline" class="icon-pescado"></ion-icon>
+              <ion-icon name="fish-outline" class="icon-pescado" ></ion-icon>
               <ion-label>Pescado</ion-label>
             </div>
             <ion-item lines="none" class="custom-input-item">
-              <ion-input type="text" placeholder="..." [(ngModel)]="minuta.pescado" (ionBlur)="guardarFirebase()"></ion-input>
+              <ion-input type="text" placeholder="..." [(ngModel)]="minuta.pescado" (ionBlur)="guardarFirebase()" [disabled]="rolUsuario === 'garzon'|| rolUsuario === 'venta'"></ion-input>
             </ion-item>
           </div>
         </ion-col>
@@ -88,7 +88,7 @@
               <ion-label>Ceviche</ion-label>
             </div>
             <ion-item lines="none" class="custom-input-item">
-              <ion-input type="text" placeholder="..." [(ngModel)]="minuta.ceviche" (ionBlur)="guardarFirebase()"></ion-input>
+              <ion-input type="text" placeholder="..." [(ngModel)]="minuta.ceviche" (ionBlur)="guardarFirebase()" [disabled]="rolUsuario === 'garzon'|| rolUsuario === 'venta'"></ion-input>
             </ion-item>
           </div>
         </ion-col>
@@ -99,7 +99,7 @@
               <ion-label>Sopa</ion-label>
             </div>
             <ion-item lines="none" class="custom-input-item">
-              <ion-input type="text" placeholder="..." [(ngModel)]="minuta.sopa" (ionBlur)="guardarFirebase()"></ion-input>
+              <ion-input type="text" placeholder="..." [(ngModel)]="minuta.sopa" (ionBlur)="guardarFirebase()" [disabled]="rolUsuario === 'garzon'|| rolUsuario === 'venta'"></ion-input>
             </ion-item>
           </div>
         </ion-col>
@@ -111,7 +111,7 @@
               <ion-label>Esp. Chef</ion-label>
             </div>
             <ion-item lines="none" class="custom-input-item">
-              <ion-input type="text" placeholder="..." [(ngModel)]="minuta.especialChef" (ionBlur)="guardarFirebase()"></ion-input>
+              <ion-input type="text" placeholder="..." [(ngModel)]="minuta.especialChef" (ionBlur)="guardarFirebase()" [disabled]="rolUsuario === 'garzon'|| rolUsuario === 'venta'"></ion-input>
             </ion-item>
           </div>
         </ion-col>
@@ -122,7 +122,7 @@
               <ion-label>Sandwich</ion-label>
             </div>
             <ion-item lines="none" class="custom-input-item">
-              <ion-input type="text" placeholder="..." [(ngModel)]="minuta.sandwichChef" (ionBlur)="guardarFirebase()"></ion-input>
+              <ion-input type="text" placeholder="..." [(ngModel)]="minuta.sandwichChef" (ionBlur)="guardarFirebase()" [disabled]="rolUsuario === 'garzon'|| rolUsuario === 'venta'"></ion-input>
             </ion-item>
           </div>
         </ion-col>
@@ -134,7 +134,7 @@
               <ion-label>Croquetas</ion-label>
             </div>
             <ion-item lines="none" class="custom-input-item">
-              <ion-input type="text" placeholder="..." [(ngModel)]="minuta.croquetas" (ionBlur)="guardarFirebase()"></ion-input>
+              <ion-input type="text" placeholder="..." [(ngModel)]="minuta.croquetas" (ionBlur)="guardarFirebase()" [disabled]="rolUsuario === 'garzon'|| rolUsuario === 'venta'"></ion-input>
             </ion-item>
           </div>
         </ion-col>
@@ -145,7 +145,7 @@
               <ion-label>Postre</ion-label>
             </div>
             <ion-item lines="none" class="custom-input-item">
-              <ion-input type="text" placeholder="..." [(ngModel)]="minuta.postre" (ionBlur)="guardarFirebase()"></ion-input>
+              <ion-input type="text" placeholder="..." [(ngModel)]="minuta.postre" (ionBlur)="guardarFirebase()" [disabled]="rolUsuario === 'garzon'|| rolUsuario === 'venta'"></ion-input>
             </ion-item>
           </div>
         </ion-col>
@@ -157,7 +157,7 @@
               <ion-label>Jugo</ion-label>
             </div>
             <ion-item lines="none" class="custom-input-item">
-              <ion-input type="text" placeholder="..." [(ngModel)]="minuta.jugo" (ionBlur)="guardarFirebase()"></ion-input>
+              <ion-input type="text" placeholder="..." [(ngModel)]="minuta.jugo" (ionBlur)="guardarFirebase()" [disabled]="rolUsuario === 'garzon'|| rolUsuario === 'venta'"></ion-input>
             </ion-item>
           </div>
         </ion-col>
@@ -168,7 +168,7 @@
               <ion-label>Mocktail</ion-label>
             </div>
             <ion-item lines="none" class="custom-input-item">
-              <ion-input type="text" placeholder="..." [(ngModel)]="minuta.mocktail" (ionBlur)="guardarFirebase()"></ion-input>
+              <ion-input type="text" placeholder="..." [(ngModel)]="minuta.mocktail" (ionBlur)="guardarFirebase()" [disabled]="rolUsuario === 'garzon'|| rolUsuario === 'venta'"></ion-input>
             </ion-item>
           </div>
         </ion-col>
@@ -179,10 +179,23 @@
               <ion-label>Cocktail</ion-label>
             </div>
             <ion-item lines="none" class="custom-input-item">
-              <ion-input type="text" placeholder="Pisco sour" [(ngModel)]="minuta.cocktail" (ionBlur)="guardarFirebase()"></ion-input>
+              <ion-input type="text" placeholder="Pisco sour" [(ngModel)]="minuta.cocktail" (ionBlur)="guardarFirebase()" [disabled]="rolUsuario === 'garzon'|| rolUsuario === 'venta'"></ion-input>
             </ion-item>
           </div>
         </ion-col>
+        
+        <ion-col size="6">
+          <div class="input-card small-card">
+            <div class="input-header">
+              <ion-icon name="wine-outline" style="color: #6c5ce7;"></ion-icon>
+              <ion-label>Especial de la tarde</ion-label>
+            </div>
+            <ion-item lines="none" class="custom-input-item">
+              <ion-input type="text" placeholder="Especial de la tarde" [(ngModel)]="minuta.especialtarde" (ionBlur)="guardarFirebase()" [disabled]="rolUsuario === 'garzon'|| rolUsuario === 'venta'"></ion-input>
+            </ion-item>
+          </div>
+        </ion-col>
+
       </ion-row>
     </ion-grid>
   </div>
@@ -198,10 +211,10 @@
           <div class="input-card plaza-card">
             <div class="input-header"><ion-label>SALON</ion-label></div>
             <ion-item lines="none" class="custom-input-item">
-              <ion-input type="text" placeholder="Garzón 1" [(ngModel)]="plazas['Salon'].g1" (ionBlur)="guardarFirebase()"></ion-input>
+              <ion-input type="text" placeholder="Garzón 1" [(ngModel)]="plazas['Salon'].g1" (ionBlur)="guardarFirebase()" [disabled]="rolUsuario === 'garzon'|| rolUsuario === 'venta'"></ion-input>
             </ion-item>
             <ion-item lines="none" class="custom-input-item">
-              <ion-input type="text" placeholder="Garzón 2" [(ngModel)]="plazas['Salon'].g2" (ionBlur)="guardarFirebase()"></ion-input>
+              <ion-input type="text" placeholder="Garzón 2" [(ngModel)]="plazas['Salon'].g2" (ionBlur)="guardarFirebase()" [disabled]="rolUsuario === 'garzon'|| rolUsuario === 'venta'"></ion-input>
             </ion-item>
           </div>
         </ion-col>
@@ -210,10 +223,10 @@
           <div class="input-card plaza-card">
             <div class="input-header"><ion-label>BOSQUE</ion-label></div>
             <ion-item lines="none" class="custom-input-item">
-              <ion-input type="text" placeholder="Garzón 1" [(ngModel)]="plazas['Bosque'].g1" (ionBlur)="guardarFirebase()"></ion-input>
+              <ion-input type="text" placeholder="Garzón 1" [(ngModel)]="plazas['Bosque'].g1" (ionBlur)="guardarFirebase()" [disabled]="rolUsuario === 'garzon'|| rolUsuario === 'venta'"></ion-input>
             </ion-item>
             <ion-item lines="none" class="custom-input-item">
-              <ion-input type="text" placeholder="Garzón 2" [(ngModel)]="plazas['Bosque'].g2" (ionBlur)="guardarFirebase()"></ion-input>
+              <ion-input type="text" placeholder="Garzón 2" [(ngModel)]="plazas['Bosque'].g2" (ionBlur)="guardarFirebase()" [disabled]="rolUsuario === 'garzon'|| rolUsuario === 'venta'"></ion-input>
             </ion-item>
           </div>
         </ion-col>
@@ -222,10 +235,10 @@
           <div class="input-card plaza-card">
             <div class="input-header"><ion-label>TERRAZA</ion-label></div>
             <ion-item lines="none" class="custom-input-item">
-              <ion-input type="text" placeholder="Garzón 1" [(ngModel)]="plazas['Terraza'].g1" (ionBlur)="guardarFirebase()"></ion-input>
+              <ion-input type="text" placeholder="Garzón 1" [(ngModel)]="plazas['Terraza'].g1" (ionBlur)="guardarFirebase()" [disabled]="rolUsuario === 'garzon'|| rolUsuario === 'venta'"></ion-input>
             </ion-item>
             <ion-item lines="none" class="custom-input-item">
-              <ion-input type="text" placeholder="Garzón 2" [(ngModel)]="plazas['Terraza'].g2" (ionBlur)="guardarFirebase()"></ion-input>
+              <ion-input type="text" placeholder="Garzón 2" [(ngModel)]="plazas['Terraza'].g2" (ionBlur)="guardarFirebase()" [disabled]="rolUsuario === 'garzon'|| rolUsuario === 'venta'"></ion-input>
             </ion-item>
           </div>
         </ion-col>
@@ -257,7 +270,8 @@
               <ion-input type="text"
                placeholder="0" 
                [(ngModel)]="existencias[p]" 
-               (ionBlur)="guardarFirebase()"></ion-input>
+               (ionBlur)="guardarFirebase()"
+               [disabled]="rolUsuario === 'garzon'|| rolUsuario === 'venta'"></ion-input>
             </ion-item>
 
             <div class="cross-line" *ngIf="existencias[p] === '0'"></div>
@@ -278,7 +292,7 @@
                       && existencias[p] !== ''}">
             <ion-label class="plato-nombre">{{ p }}</ion-label>
             <ion-item lines="none" class="stock-input-item">
-              <ion-input type="text" placeholder="0" [(ngModel)]="existencias[p]" (ionBlur)="guardarFirebase()"></ion-input>
+              <ion-input type="text" placeholder="0" [(ngModel)]="existencias[p]" (ionBlur)="guardarFirebase()" [disabled]="rolUsuario === 'garzon'|| rolUsuario === 'venta'"></ion-input>
             </ion-item>
 
             <div class="cross-line" *ngIf="existencias[p] === '0'"></div>
@@ -299,7 +313,7 @@
                       && existencias[p] !== ''}">
             <ion-label class="plato-nombre">{{ p }}</ion-label>
             <ion-item lines="none" class="stock-input-item">
-              <ion-input type="text" placeholder="0" [(ngModel)]="existencias[p]" (ionBlur)="guardarFirebase()"></ion-input>
+              <ion-input type="text" placeholder="0" [(ngModel)]="existencias[p]" (ionBlur)="guardarFirebase()" [disabled]="rolUsuario === 'garzon'|| rolUsuario === 'venta'"></ion-input>
             </ion-item>
 
             <div class="cross-line" *ngIf="existencias[p] === '0'"></div>
@@ -320,7 +334,7 @@
                       && existencias[p] !== ''}">
             <ion-label class="plato-nombre">{{ p }}</ion-label>
             <ion-item lines="none" class="stock-input-item">
-              <ion-input type="text" placeholder="0" [(ngModel)]="existencias[p]" (ionBlur)="guardarFirebase()"></ion-input>
+              <ion-input type="text" placeholder="0" [(ngModel)]="existencias[p]" (ionBlur)="guardarFirebase()" [disabled]="rolUsuario === 'garzon'|| rolUsuario === 'venta'"></ion-input>
             </ion-item>
 
             <div class="cross-line" *ngIf="existencias[p] === '0'"></div>
@@ -341,7 +355,7 @@
                       && existencias[p] !== ''}">
             <ion-label class="plato-nombre">{{ p }}</ion-label>
             <ion-item lines="none" class="stock-input-item">
-              <ion-input type="text" placeholder="0" [(ngModel)]="existencias[p]" (ionBlur)="guardarFirebase()"></ion-input>
+              <ion-input type="text" placeholder="0" [(ngModel)]="existencias[p]" (ionBlur)="guardarFirebase()" [disabled]="rolUsuario === 'garzon'|| rolUsuario === 'venta'"></ion-input>
             </ion-item>
 
             <div class="cross-line" *ngIf="existencias[p] === '0'"></div>
